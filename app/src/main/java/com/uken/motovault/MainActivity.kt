@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
             MotoVaultTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
-                        name = "Android",
+                        name = "Hello there I am working",
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
