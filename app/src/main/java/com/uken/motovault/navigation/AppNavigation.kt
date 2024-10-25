@@ -16,19 +16,19 @@ fun AppNavigation(context: Context) {
 
     NavHost(
         navController = navController,
-        startDestination = Routes.LoginScreen,
+        startDestination = Routes.LOGIN_SCREEN,
         builder = {
-            composable(Routes.LoginScreen) {
-                LoginScreen(context)
+            composable(Routes.LOGIN_SCREEN) {
+                LoginScreen(context, navController)
             }
-            composable(Routes.HomeScreen) {
-                HomeScreen(context)
+            composable(Routes.HOME_SCREEN) {
+                HomeScreen(context, navController)
             }
-            composable(Routes.ExpensesScreen) {
-                ExpensesScreen(context)
+            composable(Routes.EXPENSES_SCREEN) {
+                ExpensesScreen(context, navController)
             }
-            composable(Routes.SettingsScreen) {
-                SettingsScreen(context)
+            composable(Routes.SETTINGS_SCREEN) {
+                SettingsScreen(context, navController)
             }
         }
     )
