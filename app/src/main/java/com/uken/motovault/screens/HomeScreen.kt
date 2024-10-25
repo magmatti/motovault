@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.uken.motovault.composables.navigationbar.NavigationBar
 import com.uken.motovault.composables.navigationbar.NavigationBarItem
+import com.uken.motovault.navigation.Routes
 
 @Composable
 fun HomeScreen(context: Context, navController: NavController) {
@@ -39,7 +40,7 @@ fun HomeScreen(context: Context, navController: NavController) {
         NavigationBarItem(
             icon = Icons.AutoMirrored.Filled.Logout,
             label = "Logout",
-            onClick = { onLogoutButtonClick("login", navController) },
+            onClick = { onLogoutButtonClick(Routes.LOGIN_SCREEN, navController) },
         )
 
         NavigationBar(navController = navController)
