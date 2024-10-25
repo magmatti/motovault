@@ -1,4 +1,4 @@
-package com.uken.motovault.composables.navigationbar
+package com.uken.motovault.ui.composables.navigationbar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.uken.motovault.navigation.Routes
+import com.uken.motovault.ui.Routes
 
 @Composable
 fun NavigationBar(navController: NavController) {

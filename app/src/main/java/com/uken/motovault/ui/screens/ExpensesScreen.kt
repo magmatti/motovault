@@ -1,4 +1,4 @@
-package com.uken.motovault.screens
+package com.uken.motovault.ui.screens
 
 import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
@@ -12,10 +12,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.uken.motovault.composables.navigationbar.NavigationBar
+import com.uken.motovault.ui.composables.navigationbar.NavigationBar
 
 @Composable
-fun SettingsScreen(context: Context, navController: NavController) {
+fun ExpensesScreen(context: Context, navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -24,7 +24,7 @@ fun SettingsScreen(context: Context, navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Settings",
+            text = "Expenses",
             style = MaterialTheme.typography.headlineLarge,
             modifier = Modifier.align(Alignment.Start),
         )

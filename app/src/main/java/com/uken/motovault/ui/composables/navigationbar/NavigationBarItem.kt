@@ -1,4 +1,4 @@
-package com.uken.motovault.composables.navigationbar
+package com.uken.motovault.ui.composables.navigationbar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

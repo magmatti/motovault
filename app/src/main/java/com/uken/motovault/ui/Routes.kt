@@ -1,4 +1,4 @@
-package com.uken.motovault.navigation
+package com.uken.motovault.ui
 
 object Routes {
     const val HOME_SCREEN = "HomeScreen"

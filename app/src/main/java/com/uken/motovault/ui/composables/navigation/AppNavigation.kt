@@ -1,14 +1,15 @@
-package com.uken.motovault.navigation
+package com.uken.motovault.ui.composables.navigation
 
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.uken.motovault.screens.ExpensesScreen
-import com.uken.motovault.screens.HomeScreen
-import com.uken.motovault.screens.LoginScreen
-import com.uken.motovault.screens.SettingsScreen
+import com.uken.motovault.ui.Routes
+import com.uken.motovault.ui.screens.ExpensesScreen
+import com.uken.motovault.ui.screens.HomeScreen
+import com.uken.motovault.ui.screens.LoginScreen
+import com.uken.motovault.ui.screens.SettingsScreen
 
 @Composable
 fun AppNavigation(context: Context) {
