@@ -1,0 +1,105 @@
+package com.uken.motovault.ui.composables.navigation
+
+import android.app.Activity.RESULT_OK
+import android.content.Context
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.uken.motovault.presentation.sign_in.GoogleAuthUiClient
+import com.uken.motovault.presentation.sign_in.SignInViewModel
+import com.uken.motovault.ui.Routes
+import com.uken.motovault.ui.screens.ExpensesScreen
+import com.uken.motovault.ui.screens.HomeScreen
+import com.uken.motovault.ui.screens.LoginScreen
+import com.uken.motovault.ui.screens.SettingsScreen
+import kotlinx.coroutines.launch
+
+@Composable
+fun AppNavigation(
+    context: Context,
+    googleAuthUiClient: GoogleAuthUiClient
+) {
+
+    val navController = rememberNavController()
+    val coroutineScope = rememberCoroutineScope()
+
+    NavHost(
+        navController = navController,
+        startDestination = Routes.LOGIN_SCREEN,
+        builder = {
+            composable(Routes.LOGIN_SCREEN) {
+                val viewModel = viewModel<SignInViewModel>()
+                val state by viewModel.state.collectAsStateWithLifecycle()
+
+                LaunchedEffect(key1 = Unit) {
+                    if (googleAuthUiClient.getSignedInUser() != null) {
+                        navController.navigate(Routes.HOME_SCREEN)
+                    }
+                }
+
+                val launcher = rememberLauncherForActivityResult(
+                    contract = ActivityResultContracts.StartIntentSenderForResult(),
+                    onResult = { result ->
+                        if (result.resultCode == RESULT_OK) {
+                            coroutineScope.launch {
+                                val signInResult = googleAuthUiClient.signInWithIntent(
+                                    intent = result.data ?: return@launch
+                                )
+                                viewModel.onSignInResult(signInResult)
+                            }
+                        }
+                    }
+                )
+                LoginScreen(
+                    navController,
+                    state,
+                    onGoogleSignInClick = {
+                        coroutineScope.launch {
+                            val signInIntentSender = googleAuthUiClient.signIn()
+                            launcher.launch(
+                                IntentSenderRequest.Builder(
+                                    signInIntentSender ?: return@launch
+                                ).build()
+                            )
+                        }
+                    }
+                )
+            }
+            composable(Routes.HOME_SCREEN) {
+                HomeScreen(
+                    navController,
+                    googleAuthUiClient.getSignedInUser(),
+                    onSignOut = {
+                        coroutineScope.launch {
+                            googleAuthUiClient.signOut()
+                            Toast.makeText(
+                                context,
+                                "Signed Out",
+                                Toast.LENGTH_LONG
+                            ).show()
+
+                            navController.popBackStack()
+                            navController.navigate(Routes.LOGIN_SCREEN)
+                        }
+                    }
+                )
+            }
+            composable(Routes.EXPENSES_SCREEN) {
+                ExpensesScreen(navController)
+            }
+            composable(Routes.SETTINGS_SCREEN) {
+                SettingsScreen(navController)
+            }
+        }
+    )
+}

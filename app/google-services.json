@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1011551261192",
+    "project_id": "motovault-25f39",
+    "storage_bucket": "motovault-25f39.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1011551261192:android:0a74337028da27f82c37bd",
+        "android_client_info": {
+          "package_name": "com.uken.motovault"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1011551261192-h26fdnim8td3icnula5e17opnukeeg5c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.uken.motovault",
+            "certificate_hash": "bf8132c2cf10a92425a635f351424390e3a22245"
+          }
+        },
+        {
+          "client_id": "1011551261192-cpmqc9l8r8kd1jaju713mmgtbhbjf8fr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo6t4FCL6iSoKJu2o-AB0ySLWeL44dsS8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1011551261192-cpmqc9l8r8kd1jaju713mmgtbhbjf8fr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
