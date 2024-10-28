@@ -1,6 +1,5 @@
 package com.uken.motovault.ui.screens
 
-import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,7 +14,9 @@ import androidx.navigation.NavController
 import com.uken.motovault.ui.composables.navigationbar.NavigationBar
 
 @Composable
-fun SettingsScreen(context: Context, navController: NavController) {
+fun SettingsScreen(
+    navController: NavController
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()

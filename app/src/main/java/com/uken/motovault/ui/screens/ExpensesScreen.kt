@@ -1,6 +1,5 @@
 package com.uken.motovault.ui.screens
 
-import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,7 +14,9 @@ import androidx.navigation.NavController
 import com.uken.motovault.ui.composables.navigationbar.NavigationBar
 
 @Composable
-fun ExpensesScreen(context: Context, navController: NavController) {
+fun ExpensesScreen(
+    navController: NavController
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
