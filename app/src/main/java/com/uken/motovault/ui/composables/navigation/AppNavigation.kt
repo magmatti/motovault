@@ -17,11 +17,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.uken.motovault.presentation.sign_in.GoogleAuthUiClient
 import com.uken.motovault.presentation.sign_in.SignInViewModel
+import com.uken.motovault.presentation.viewmodels.VehicleViewModel
 import com.uken.motovault.ui.Routes
+import com.uken.motovault.ui.screens.AccountScreen
 import com.uken.motovault.ui.screens.ExpensesScreen
 import com.uken.motovault.ui.screens.HomeScreen
 import com.uken.motovault.ui.screens.LoginScreen
 import com.uken.motovault.ui.screens.SettingsScreen
+import com.uken.motovault.ui.screens.VehicleInfoScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -78,6 +81,17 @@ fun AppNavigation(
             composable(Routes.HOME_SCREEN) {
                 HomeScreen(
                     navController,
+                )
+            }
+            composable(Routes.EXPENSES_SCREEN) {
+                ExpensesScreen(navController)
+            }
+            composable(Routes.SETTINGS_SCREEN) {
+                SettingsScreen(navController)
+            }
+            composable(Routes.ACCOUNT_SCREEN) {
+                AccountScreen(
+                    navController,
                     googleAuthUiClient.getSignedInUser(),
                     onSignOut = {
                         coroutineScope.launch {
@@ -94,11 +108,9 @@ fun AppNavigation(
                     }
                 )
             }
-            composable(Routes.EXPENSES_SCREEN) {
-                ExpensesScreen(navController)
-            }
-            composable(Routes.SETTINGS_SCREEN) {
-                SettingsScreen(navController)
+            composable(Routes.VEHICLE_INFO_SCREEN) {
+                val viewModel = viewModel<VehicleViewModel>()
+                VehicleInfoScreen(viewModel, "VF1BG0N0526997886")
             }
         }
     )

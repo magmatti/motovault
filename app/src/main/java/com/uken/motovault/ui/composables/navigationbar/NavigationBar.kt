@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.AttachMoney
@@ -46,6 +47,11 @@ fun NavigationBar(navController: NavController) {
                 icon = Icons.Filled.Settings,
                 label = "Settings",
                 onClick = { onNavBarItemClick(Routes.SETTINGS_SCREEN, navController) }
+            )
+            NavigationBarItem(
+                icon = Icons.Filled.AccountCircle,
+                label = "Account",
+                onClick = { onNavBarItemClick(Routes.ACCOUNT_SCREEN, navController) }
             )
         }
     }
