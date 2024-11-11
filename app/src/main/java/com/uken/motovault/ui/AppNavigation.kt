@@ -1,4 +1,4 @@
-package com.uken.motovault.ui.composables.navigation
+package com.uken.motovault.ui
 
 import android.app.Activity.RESULT_OK
 import android.content.Context
@@ -18,7 +18,6 @@ import androidx.navigation.compose.rememberNavController
 import com.uken.motovault.presentation.sign_in.GoogleAuthUiClient
 import com.uken.motovault.presentation.sign_in.SignInViewModel
 import com.uken.motovault.presentation.viewmodels.VehicleViewModel
-import com.uken.motovault.ui.Routes
 import com.uken.motovault.ui.screens.AccountScreen
 import com.uken.motovault.ui.screens.ExpensesScreen
 import com.uken.motovault.ui.screens.HomeScreen
@@ -110,7 +109,7 @@ fun AppNavigation(
             }
             composable(Routes.VEHICLE_INFO_SCREEN) {
                 val viewModel = viewModel<VehicleViewModel>()
-                VehicleInfoScreen(viewModel, "VF1BG0N0526997886")
+                VehicleInfoScreen(navController, viewModel, "VF1BG0N0526997886")
             }
         }
     )

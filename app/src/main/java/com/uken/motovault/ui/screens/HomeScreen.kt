@@ -13,9 +13,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -26,58 +28,65 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.uken.motovault.presentation.vehicle_info.VehicleInfo
 import com.uken.motovault.ui.Routes
 import com.uken.motovault.ui.composables.home_screen.VehicleItem
-import com.uken.motovault.ui.composables.navigationbar.NavigationBar
+import com.uken.motovault.ui.composables.navigationbar.AppNavigationBar
+import com.uken.motovault.ui.composables.navigationbar.NavigationBarViewModel
 
 @Composable
 fun HomeScreen(
     navController: NavController,
+    viewModel: NavigationBarViewModel = viewModel()
 ) {
     var showDialog by remember { mutableStateOf(false) }
     var vehicleName by remember { mutableStateOf("") }
     var vinNumber by remember { mutableStateOf("") }
     var vehicleList by remember { mutableStateOf(listOf<VehicleInfo>()) }
 
-    Column(
-        verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        Text(
-            text = "Home",
-            style = MaterialTheme.typography.headlineLarge,
+    Scaffold(
+        bottomBar = { AppNavigationBar(navController, viewModel) },
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                onClick = { showDialog = true },
+                icon = { Icon(Icons.Filled.Add, "Add Icon") },
+                text = { Text(text = "Add Vehicle") },
+            )
+        },
+        floatingActionButtonPosition = FabPosition.End
+    ) { innerPadding ->
+        Column(
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .align(Alignment.Start)
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+                .fillMaxSize()
+                .padding(innerPadding)
         ) {
-            items(vehicleList) { vehicle ->
-                VehicleItem(
-                    vehicle,
-                    onDetailsClick = {
-                        navController.navigate(Routes.VEHICLE_INFO_SCREEN)
-                    }
-                )
+            Text(
+                text = "Home",
+                style = MaterialTheme.typography.headlineLarge,
+                modifier = Modifier
+                    .align(Alignment.Start)
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(vehicleList) { vehicle ->
+                    VehicleItem(
+                        vehicle,
+                        onDetailsClick = {
+                            navController.navigate(Routes.VEHICLE_INFO_SCREEN)
+                        }
+                    )
+                }
             }
         }
-
-        ExtendedFloatingActionButton(
-            onClick = { showDialog = true },
-            icon = { Icon(Icons.Filled.Add, "Add Icon") },
-            text = { Text(text = "Add Vehicle") },
-        )
-
-        NavigationBar(navController = navController)
     }
 
     if (showDialog) {
