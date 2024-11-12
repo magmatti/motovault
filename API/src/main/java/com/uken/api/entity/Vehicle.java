@@ -10,64 +10,119 @@ public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
-
+    private int userID;
     private String vin;
+    private String carName;
+    @Transient
     private int vehicleId;
+    @Transient
     private String make;
+    @Transient
     private String model;
+    @Transient
     private int modelYear;
+    @Transient
     private String productType;
+    @Transient
     private String body;
+    @Transient
     private String drive;
+    @Transient
     private int engineDisplacement;
+    @Transient
     private int enginePowerKw;
+    @Transient
     private int enginePowerHp;
+    @Transient
     private String fuelType;
+    @Transient
     private String engineCode;
+    @Transient
     private String transmission;
+    @Transient
     private int numberOfGears;
+    @Transient
     private String manufacturer;
+    @Transient
     private String manufacturerAddress;
+    @Transient
     private String plantCountry;
+    @Transient
     private double engineCylinderBore;
+    @Transient
     private int engineCylinders;
+    @Transient
     private String engineCylindersPosition;
+    @Transient
     private int engineOilCapacity;
+    @Transient
     private String enginePosition;
+    @Transient
     private int engineRpm;
+    @Transient
     private int engineStroke;
+    @Transient
     private String engineTurbine;
+    @Transient
     private String valveTrain;
+    @Transient
     private double fuelConsumptionCombined;
+    @Transient
     private double fuelConsumptionExtraUrban;
+    @Transient
     private double fuelConsumptionUrban;
+    @Transient
     private double averageCO2Emission;
+    @Transient
     private int valvesPerCylinder;
+    @Transient
     private int numberOfAxles;
+    @Transient
     private int numberOfDoors;
+    @Transient
     private String numberOfSeats;
+    @Transient
     private String powerSteering;
+    @Transient
     private String frontBrakes;
+    @Transient
     private String rearBrakes;
+    @Transient
     private String steeringType;
+    @Transient
     private String frontSuspension;
+    @Transient
     private String wheelSize;
+    @Transient
     private int wheelbase;
+    @Transient
     private int height;
+    @Transient
     private int length;
+    @Transient
     private int width;
+    @Transient
     private int trackRear;
+    @Transient
     private int maxSpeed;
+    @Transient
     private int weightEmpty;
+    @Transient
     private int maxWeight;
+    @Transient
     private int maxRoofLoad;
+    @Transient
     private int permittedTrailerLoadWithoutBrakes;
+    @Transient
     private boolean abs;
+    @Transient
     private String checkDigit;
+    @Transient
     private String sequentialNumber;
 
     public Vehicle(){}
-    public Vehicle(String response) {
+    public Vehicle(String response, String carName) {
+        this.carName = carName;
         JSONObject jsonResponse = new JSONObject(response);
         JSONArray decodeArray = jsonResponse.getJSONArray("decode");
 
