@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.google.android.gms.auth.api.identity.Identity
-import com.uken.motovault.presentation.sign_in.GoogleAuthUiClient
+import com.uken.motovault.sign_in.google_sign_in.GoogleAuthUiClient
 import com.uken.motovault.ui.AppNavigation
 import com.uken.motovault.ui.theme.MotoVaultTheme
 

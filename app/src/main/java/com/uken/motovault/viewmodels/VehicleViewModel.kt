@@ -1,4 +1,4 @@
-package com.uken.motovault.presentation.viewmodels
+package com.uken.motovault.viewmodels
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

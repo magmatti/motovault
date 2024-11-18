@@ -9,21 +9,27 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.uken.motovault.presentation.sign_in.GoogleAuthUiClient
-import com.uken.motovault.presentation.sign_in.SignInViewModel
-import com.uken.motovault.presentation.viewmodels.VehicleViewModel
+import com.uken.motovault.sign_in.email_sign_in.EmailAuthState
+import com.uken.motovault.sign_in.email_sign_in.EmailSignInViewModel
+import com.uken.motovault.sign_in.google_sign_in.GoogleAuthUiClient
+import com.uken.motovault.sign_in.google_sign_in.SignInViewModel
 import com.uken.motovault.ui.screens.AccountScreen
 import com.uken.motovault.ui.screens.ExpensesScreen
 import com.uken.motovault.ui.screens.HomeScreen
 import com.uken.motovault.ui.screens.LoginScreen
 import com.uken.motovault.ui.screens.SettingsScreen
+import com.uken.motovault.ui.screens.SignUpScreen
 import com.uken.motovault.ui.screens.VehicleInfoScreen
+import com.uken.motovault.viewmodels.VehicleViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
@@ -31,7 +37,6 @@ fun AppNavigation(
     context: Context,
     googleAuthUiClient: GoogleAuthUiClient
 ) {
-
     val navController = rememberNavController()
     val coroutineScope = rememberCoroutineScope()
 
@@ -41,7 +46,19 @@ fun AppNavigation(
         builder = {
             composable(Routes.LOGIN_SCREEN) {
                 val viewModel = viewModel<SignInViewModel>()
+                val emailSignInViewModel = viewModel<EmailSignInViewModel>()
                 val state by viewModel.state.collectAsStateWithLifecycle()
+                val emailState = emailSignInViewModel.authState.observeAsState()
+
+                LaunchedEffect(emailState.value) {
+                    when(emailState.value) {
+                        is EmailAuthState.Authenticated -> navController
+                            .navigate(Routes.HOME_SCREEN)
+                        is EmailAuthState.Error -> Toast.makeText(context,
+                            (emailState.value as EmailAuthState.Error).message, Toast.LENGTH_SHORT).show()
+                        else -> Unit
+                    }
+                }
 
                 LaunchedEffect(key1 = Unit) {
                     if (googleAuthUiClient.getSignedInUser() != null) {
@@ -74,43 +91,100 @@ fun AppNavigation(
                                 ).build()
                             )
                         }
-                    }
+                    },
+                    emailSignInViewModel
                 )
             }
             composable(Routes.HOME_SCREEN) {
                 HomeScreen(
                     navController,
+                    googleAuthUiClient.getSignedInUser(),
+                    onSignOut = onSignOut(
+                        coroutineScope,
+                        googleAuthUiClient,
+                        context,
+                        navController
+                    )
                 )
             }
             composable(Routes.EXPENSES_SCREEN) {
-                ExpensesScreen(navController)
+                ExpensesScreen(
+                    navController,
+                    googleAuthUiClient.getSignedInUser(),
+                    onSignOut = onSignOut(
+                        coroutineScope,
+                        googleAuthUiClient,
+                        context,
+                        navController
+                    )
+                )
             }
             composable(Routes.SETTINGS_SCREEN) {
-                SettingsScreen(navController)
+                SettingsScreen(
+                    navController,
+                    googleAuthUiClient.getSignedInUser(),
+                    onSignOut = onSignOut(
+                        coroutineScope,
+                        googleAuthUiClient,
+                        context,
+                        navController
+                    )
+                )
             }
             composable(Routes.ACCOUNT_SCREEN) {
                 AccountScreen(
                     navController,
                     googleAuthUiClient.getSignedInUser(),
-                    onSignOut = {
-                        coroutineScope.launch {
-                            googleAuthUiClient.signOut()
-                            Toast.makeText(
-                                context,
-                                "Signed Out",
-                                Toast.LENGTH_LONG
-                            ).show()
-
-                            navController.popBackStack()
-                            navController.navigate(Routes.LOGIN_SCREEN)
-                        }
-                    }
+                    onSignOut = onSignOut(
+                        coroutineScope,
+                        googleAuthUiClient,
+                        context,
+                        navController
+                    )
                 )
             }
             composable(Routes.VEHICLE_INFO_SCREEN) {
                 val viewModel = viewModel<VehicleViewModel>()
                 VehicleInfoScreen(navController, viewModel, "VF1BG0N0526997886")
             }
+
+            composable(Routes.SIGN_UP_SCREEN) {
+                val emailSignInViewModel = viewModel<EmailSignInViewModel>()
+                val state = emailSignInViewModel.authState.observeAsState()
+
+                LaunchedEffect(state.value) {
+                    when(state.value) {
+                        is EmailAuthState.Authenticated -> navController
+                            .navigate(Routes.HOME_SCREEN)
+                        is EmailAuthState.Error -> Toast.makeText(context,
+                            (state.value as EmailAuthState.Error).message, Toast.LENGTH_SHORT).show()
+                        else -> Unit
+                    }
+                }
+
+                SignUpScreen(navController, emailSignInViewModel)
+            }
         }
     )
+}
+
+fun onSignOut(
+    coroutineScope: CoroutineScope,
+    googleAuthUiClient: GoogleAuthUiClient,
+    context: Context,
+    navController: NavController
+): () -> Unit {
+    return {
+        coroutineScope.launch {
+            googleAuthUiClient.signOut()
+            Toast.makeText(
+                context,
+                "Signed Out",
+                Toast.LENGTH_LONG
+            ).show()
+
+            navController.popBackStack()
+            navController.navigate(Routes.LOGIN_SCREEN)
+        }
+    }
 }

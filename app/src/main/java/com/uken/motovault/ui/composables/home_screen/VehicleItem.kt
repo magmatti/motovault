@@ -15,7 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.uken.motovault.presentation.vehicle_info.VehicleInfo
+import com.uken.motovault.models.VehicleInfo
 
 @Composable
 fun VehicleItem(

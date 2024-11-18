@@ -1,4 +1,4 @@
-package com.uken.motovault.presentation.sign_in
+package com.uken.motovault.sign_in.google_sign_in
 
 import android.content.Context
 import android.content.Intent

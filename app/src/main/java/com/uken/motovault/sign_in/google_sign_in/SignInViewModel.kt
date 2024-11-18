@@ -1,4 +1,4 @@
-package com.uken.motovault.presentation.sign_in
+package com.uken.motovault.sign_in.google_sign_in
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

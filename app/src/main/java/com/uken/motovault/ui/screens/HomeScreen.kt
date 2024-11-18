@@ -10,19 +10,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -39,8 +33,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.uken.motovault.presentation.vehicle_info.VehicleInfo
+import com.uken.motovault.models.VehicleInfo
+import com.uken.motovault.sign_in.email_sign_in.EmailSignInViewModel
+import com.uken.motovault.sign_in.google_sign_in.UserData
 import com.uken.motovault.ui.Routes
+import com.uken.motovault.ui.composables.app_navigation_drawer.AppNavigationDrawer
 import com.uken.motovault.ui.composables.home_screen.VehicleItem
 import com.uken.motovault.ui.composables.navigationbar.AppNavigationBar
 import com.uken.motovault.ui.composables.navigationbar.NavigationBarViewModel
@@ -49,7 +46,10 @@ import com.uken.motovault.ui.composables.top_app_bar.TopAppBar
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: NavigationBarViewModel = viewModel()
+    userData: UserData?,
+    onSignOut: () -> Unit,
+    emailSignInViewModel: EmailSignInViewModel = viewModel(),
+    viewModel: NavigationBarViewModel = viewModel(),
 ) {
     var showDialog by remember { mutableStateOf(false) }
     var vehicleName by remember { mutableStateOf("") }
@@ -60,58 +60,12 @@ fun HomeScreen(
 
     ModalNavigationDrawer(
         drawerState = drawerState,
-        drawerContent = {
-            ModalDrawerSheet {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Column {
-                        Text(
-                            "Menu",
-                            modifier = Modifier.padding(16.dp),
-                            style = MaterialTheme.typography.headlineMedium
-                        )
-                        HorizontalDivider()
-                        NavigationDrawerItem(
-                            icon = {Icon(Icons.Filled.Settings, contentDescription = "Settings")},
-                            label = { Text(text = "Settings") },
-                            selected = false,
-                            onClick = { navController.navigate(Routes.SETTINGS_SCREEN) }
-                        )
-                        NavigationDrawerItem(
-                            icon = { Icon(Icons.Filled.AccountCircle, contentDescription = "Account") },
-                            label = { Text(text = "Account") },
-                            selected = false,
-                            onClick = { navController.navigate(Routes.ACCOUNT_SCREEN) }
-                        )
-                    }
-                    Column {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                        ) {
-                            Text(
-                                text = "Logged in as:",
-                                style = MaterialTheme.typography.bodySmall,
-                                modifier = Modifier.padding(bottom = 8.dp)
-                            )
-                            Text(
-                                text = "John Doe", // Replace with actual user name
-                                style = MaterialTheme.typography.bodyMedium,
-                                modifier = Modifier.padding(bottom = 16.dp)
-                            )
-                            TextButton(
-                                onClick = { /* Logout action */ },
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                Text(text = "Log Out", style = MaterialTheme.typography.bodyMedium)
-                            }
-                        }
-                    }
-                }
-            }
+        drawerContent = { AppNavigationDrawer(
+                navController,
+                userData,
+                onSignOut,
+                emailSignInViewModel
+            )
         }
     ) {
         Scaffold(

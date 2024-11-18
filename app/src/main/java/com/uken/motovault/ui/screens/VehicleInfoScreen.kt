@@ -14,9 +14,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.uken.motovault.presentation.viewmodels.VehicleViewModel
 import com.uken.motovault.ui.composables.navigationbar.AppNavigationBar
 import com.uken.motovault.ui.composables.vehicle_info_screen.VehicleDetails
+import com.uken.motovault.viewmodels.VehicleViewModel
 
 @Composable
 fun VehicleInfoScreen(
