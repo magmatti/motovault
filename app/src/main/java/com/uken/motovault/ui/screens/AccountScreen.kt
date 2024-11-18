@@ -1,5 +1,7 @@
 package com.uken.motovault.ui.screens
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -59,19 +61,28 @@ fun AccountScreen(
                     .fillMaxSize()
                     .padding(paddingValues),
             ) {
-                Column(
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                    contentAlignment = Alignment.Center
                 ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text("Logged in as:")
+                        Spacer(modifier = Modifier.height(16.dp))
 
-                    GoogleAccountProfilePicture(userData, 100.dp)
-                    Spacer(modifier = Modifier.height(16.dp))
+                        GoogleAccountProfilePicture(userData, 100.dp)
+                        Spacer(modifier = Modifier.height(16.dp))
 
-                    GoogleAccountUserName(userData, 24.sp)
-                    Spacer(modifier = Modifier.height(16.dp))
+                        GoogleAccountUserName(userData, 24.sp)
+                        Spacer(modifier = Modifier.height(16.dp))
 
-                    Button(onClick = onSignOut) {
-                        Text(text = "Sign out")
+                        Button(onClick = onSignOut) {
+                            Text(text = "Sign out")
+                        }
                     }
                 }
             }
