@@ -1,14 +1,14 @@
 package com.uken.motovault.ui.composables.navigationbar
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.AttachMoney
+import androidx.compose.material.icons.filled.BarChart
+import androidx.compose.material.icons.filled.CarRepair
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.AttachMoney
+import androidx.compose.material.icons.outlined.BarChart
+import androidx.compose.material.icons.outlined.CarRepair
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -45,16 +45,16 @@ fun AppNavigationBar(
             route = Routes.EXPENSES_SCREEN
         ),
         NavigationBarItem(
-            label = "Settings",
-            selectedIcon = Icons.Filled.Settings,
-            unselectedIcon = Icons.Outlined.Settings,
-            route = Routes.SETTINGS_SCREEN
+            label = "Service",
+            selectedIcon = Icons.Filled.CarRepair,
+            unselectedIcon = Icons.Outlined.CarRepair,
+            route = Routes.SERVICE_SCREEN
         ),
         NavigationBarItem(
-            label = "Account",
-            selectedIcon = Icons.Filled.AccountCircle,
-            unselectedIcon = Icons.Outlined.AccountCircle,
-            route = Routes.ACCOUNT_SCREEN
+            label = "Insights",
+            selectedIcon = Icons.Filled.BarChart,
+            unselectedIcon = Icons.Outlined.BarChart,
+            route = Routes.INSIGHTS_SCREEN
         ),
     )
 

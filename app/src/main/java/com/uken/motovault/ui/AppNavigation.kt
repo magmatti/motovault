@@ -24,7 +24,9 @@ import com.uken.motovault.sign_in.google_sign_in.SignInViewModel
 import com.uken.motovault.ui.screens.AccountScreen
 import com.uken.motovault.ui.screens.ExpensesScreen
 import com.uken.motovault.ui.screens.HomeScreen
+import com.uken.motovault.ui.screens.InsightsScreen
 import com.uken.motovault.ui.screens.LoginScreen
+import com.uken.motovault.ui.screens.ServiceScreen
 import com.uken.motovault.ui.screens.SettingsScreen
 import com.uken.motovault.ui.screens.SignUpScreen
 import com.uken.motovault.ui.screens.VehicleInfoScreen
@@ -121,6 +123,30 @@ fun AppNavigation(
             }
             composable(Routes.SETTINGS_SCREEN) {
                 SettingsScreen(
+                    navController,
+                    googleAuthUiClient.getSignedInUser(),
+                    onSignOut = onSignOut(
+                        coroutineScope,
+                        googleAuthUiClient,
+                        context,
+                        navController
+                    )
+                )
+            }
+            composable(Routes.SERVICE_SCREEN) {
+                ServiceScreen(
+                    navController,
+                    googleAuthUiClient.getSignedInUser(),
+                    onSignOut = onSignOut(
+                        coroutineScope,
+                        googleAuthUiClient,
+                        context,
+                        navController
+                    )
+                )
+            }
+            composable(Routes.INSIGHTS_SCREEN) {
+                InsightsScreen(
                     navController,
                     googleAuthUiClient.getSignedInUser(),
                     onSignOut = onSignOut(

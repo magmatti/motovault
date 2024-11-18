@@ -14,8 +14,8 @@ class NavigationBarViewModel: ViewModel() {
     private val routes = listOf(
         Routes.HOME_SCREEN,
         Routes.EXPENSES_SCREEN,
-        Routes.SETTINGS_SCREEN,
-        Routes.ACCOUNT_SCREEN
+        Routes.SERVICE_SCREEN,
+        Routes.INSIGHTS_SCREEN
     )
 
     fun onItemSelected(index: Int) {
