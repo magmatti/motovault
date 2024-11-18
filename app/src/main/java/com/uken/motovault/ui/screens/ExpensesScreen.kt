@@ -3,11 +3,20 @@ package com.uken.motovault.ui.screens
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Money
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,9 +25,11 @@ import androidx.navigation.NavController
 import com.uken.motovault.sign_in.email_sign_in.EmailSignInViewModel
 import com.uken.motovault.sign_in.google_sign_in.UserData
 import com.uken.motovault.ui.composables.app_navigation_drawer.AppNavigationDrawer
+import com.uken.motovault.ui.composables.expenses_screen.ExpenseItem
 import com.uken.motovault.ui.composables.navigationbar.AppNavigationBar
 import com.uken.motovault.ui.composables.navigationbar.NavigationBarViewModel
 import com.uken.motovault.ui.composables.top_app_bar.TopAppBar
+import com.uken.motovault.viewmodels.ExpensesViewModel
 
 @Composable
 fun ExpensesScreen(
@@ -26,10 +37,12 @@ fun ExpensesScreen(
     userData: UserData?,
     onSignOut: () -> Unit,
     emailSignInViewModel: EmailSignInViewModel = viewModel(),
-    viewModel: NavigationBarViewModel = viewModel()
+    viewModel: NavigationBarViewModel = viewModel(),
+    expensesViewModel: ExpensesViewModel = viewModel()
 ) {
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val expenses by expensesViewModel.expenses.collectAsState()
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -44,7 +57,14 @@ fun ExpensesScreen(
     ) {
         Scaffold(
             topBar = { TopAppBar(scope, drawerState, "Expenses") },
-            bottomBar = { AppNavigationBar(navController, viewModel) }
+            bottomBar = { AppNavigationBar(navController, viewModel) },
+            floatingActionButton = {
+                ExtendedFloatingActionButton(
+                    onClick = { /* To do */ },
+                    icon = { Icon(Icons.Filled.Money, "Add Icon") },
+                    text = { Text(text = "New expense") },
+                )
+            }
         ) { paddingValues ->
             Column(
                 modifier = Modifier
@@ -52,7 +72,15 @@ fun ExpensesScreen(
                     .padding(paddingValues),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
+                if (expenses.isEmpty()) {
+                    Text("No expenses available")
+                } else {
+                    LazyColumn {
+                        items(expenses) { expense ->
+                            ExpenseItem(expense)
+                        }
+                    }
+                }
             }
         }
     }

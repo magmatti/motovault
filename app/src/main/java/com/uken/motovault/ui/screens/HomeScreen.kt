@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,7 +34,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.uken.motovault.models.VehicleInfo
 import com.uken.motovault.sign_in.email_sign_in.EmailSignInViewModel
 import com.uken.motovault.sign_in.google_sign_in.UserData
 import com.uken.motovault.ui.Routes
@@ -42,6 +42,7 @@ import com.uken.motovault.ui.composables.home_screen.VehicleItem
 import com.uken.motovault.ui.composables.navigationbar.AppNavigationBar
 import com.uken.motovault.ui.composables.navigationbar.NavigationBarViewModel
 import com.uken.motovault.ui.composables.top_app_bar.TopAppBar
+import com.uken.motovault.viewmodels.HomeViewModel
 
 @Composable
 fun HomeScreen(
@@ -50,11 +51,13 @@ fun HomeScreen(
     onSignOut: () -> Unit,
     emailSignInViewModel: EmailSignInViewModel = viewModel(),
     viewModel: NavigationBarViewModel = viewModel(),
+    homeViewModel: HomeViewModel = viewModel()
 ) {
     var showDialog by remember { mutableStateOf(false) }
     var vehicleName by remember { mutableStateOf("") }
     var vinNumber by remember { mutableStateOf("") }
-    var vehicleList by remember { mutableStateOf(listOf<VehicleInfo>()) }
+    val vehicleList by homeViewModel.vehicles.collectAsState()
+
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
 
@@ -93,7 +96,7 @@ fun HomeScreen(
                 ) {
                     items(vehicleList) { vehicle ->
                         VehicleItem(
-                            vehicle,
+                            vehicle.vin,
                             onDetailsClick = {
                                 navController.navigate(Routes.VEHICLE_INFO_SCREEN)
                             }
@@ -128,14 +131,14 @@ fun HomeScreen(
             confirmButton = {
                 TextButton(
                     onClick = {
-                        if (vehicleName.isNotBlank() && vinNumber.isNotBlank()) {
-                            vehicleList = vehicleList + VehicleInfo(
-                                name = vehicleName,
-                                vin = vinNumber
-                            )
-                            vehicleName = ""
-                            vinNumber = ""
-                        }
+//                        if (vehicleName.isNotBlank() && vinNumber.isNotBlank()) {
+//                            vehicleList = vehicleList + VehicleInfo(
+//                                name = vehicleName,
+//                                vin = vinNumber
+//                            )
+//                            vehicleName = ""
+//                            vinNumber = ""
+//                        }
                         showDialog = false
                     }
                 ) {

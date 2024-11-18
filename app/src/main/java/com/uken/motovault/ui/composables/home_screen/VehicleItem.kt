@@ -15,11 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.uken.motovault.models.VehicleInfo
 
 @Composable
 fun VehicleItem(
-    vehicleInfo: VehicleInfo,
+    vehicleVin: String,
     onDetailsClick: () -> Unit
 ) {
     Card(
@@ -37,11 +36,11 @@ fun VehicleItem(
         ) {
             Column {
                 Text(
-                    text = "Car name: ${vehicleInfo.name}",
+                    text = "Car name: Renault", // to be changed later
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
-                Text(text = "VIN Number: ${vehicleInfo.vin}")
+                Text(text = "VIN Number: $vehicleVin")
             }
         }
         Row(

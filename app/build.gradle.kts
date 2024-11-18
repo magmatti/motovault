@@ -44,11 +44,15 @@ android {
 
 dependencies {
 
+    implementation(libs.retrofit2.retrofit)
+    implementation(libs.converter.gson)
+
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.analytics)
     implementation(libs.androidx.lifecycle.viewmodel.compose.android)
     implementation(libs.coil.compose)
+
 
     implementation (libs.androidx.material.icons.extended)
     implementation(libs.androidx.core.ktx)
