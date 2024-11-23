@@ -22,8 +22,11 @@ public class VehicleService {
         return vehicleRepository.findAll();
     }
 
-    // Znajdź pojazd po ID
     public Optional<Vehicle> getVehicleById(long id) {
         return vehicleRepository.findById(id);
+    }
+
+    public void deleteVehicleById(long id) {
+        vehicleRepository.deleteById(id);
     }
 }
