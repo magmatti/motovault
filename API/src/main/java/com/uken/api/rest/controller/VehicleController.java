@@ -35,4 +35,10 @@ public class VehicleController {
         return vehicle.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteVehicle(@PathVariable long id) {
+        vehicleService.deleteVehicleById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
