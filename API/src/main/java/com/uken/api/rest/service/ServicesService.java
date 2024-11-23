@@ -25,4 +25,8 @@ public class ServicesService {
     public Optional<Services> getServiceById(long id) {
         return servicesRepository.findById(id);
     }
+
+     public void deleteServiceById(long id) {
+         servicesRepository.deleteById(id);
+     }
 }
