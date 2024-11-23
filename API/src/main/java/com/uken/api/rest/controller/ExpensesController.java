@@ -35,5 +35,11 @@ public class ExpensesController {
         return expense.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteExpense(@PathVariable long id) {
+        expensesService.deleteExpenseById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
 
