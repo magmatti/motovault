@@ -35,5 +35,11 @@ public class ServicesController {
         return service.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteService(@PathVariable long id) {
+        servicesService.deleteServiceById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
 
