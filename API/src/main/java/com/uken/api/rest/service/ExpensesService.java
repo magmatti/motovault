@@ -24,4 +24,8 @@ public class ExpensesService {
     public Optional<Expenses> getExpensesById(long id) {
         return expensesRepository.findById(id);
     }
+
+    public void deleteExpenseById(long id) {
+        expensesRepository.deleteById(id);
+    }
 }
