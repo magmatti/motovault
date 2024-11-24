@@ -94,7 +94,6 @@ fun ExpensesScreen(
                 }
             }
 
-            Text("siema")
             if (showExpenseDialog) {
                 AddExpenseDialog(
                     onDismiss = { showExpenseDialog = false },
