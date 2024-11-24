@@ -42,7 +42,7 @@ fun AddExpenseDialog(
                 OutlinedTextField(
                     value = expensesType,
                     onValueChange = { expensesType = it },
-                    label = { Text("Expense type e.g Paliwo, Mandat, etc.") }
+                    label = { Text("Expense type e.g Petrol, Speed ticket, etc.") }
                 )
                 OutlinedTextField(
                     value = date,
