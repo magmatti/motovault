@@ -17,7 +17,10 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -25,7 +28,8 @@ import androidx.navigation.NavController
 import com.uken.motovault.sign_in.email_sign_in.EmailSignInViewModel
 import com.uken.motovault.sign_in.google_sign_in.UserData
 import com.uken.motovault.ui.composables.app_navigation_drawer.AppNavigationDrawer
-import com.uken.motovault.ui.composables.expenses_screen.ExpenseItem
+import com.uken.motovault.ui.composables.expenses_screen.AddExpenseDialog
+import com.uken.motovault.ui.composables.expenses_screen.ExpenseItemCard
 import com.uken.motovault.ui.composables.navigationbar.AppNavigationBar
 import com.uken.motovault.ui.composables.navigationbar.NavigationBarViewModel
 import com.uken.motovault.ui.composables.top_app_bar.TopAppBar
@@ -44,6 +48,8 @@ fun ExpensesScreen(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val expenses by expensesViewModel.expenses.collectAsState()
 
+    var showExpenseDialog by remember { mutableStateOf(false) }
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -60,7 +66,7 @@ fun ExpensesScreen(
             bottomBar = { AppNavigationBar(navController, viewModel) },
             floatingActionButton = {
                 ExtendedFloatingActionButton(
-                    onClick = { /* To do */ },
+                    onClick = { showExpenseDialog = true },
                     icon = { Icon(Icons.Filled.Money, "Add Icon") },
                     text = { Text(text = "New expense") },
                 )
@@ -77,10 +83,25 @@ fun ExpensesScreen(
                 } else {
                     LazyColumn {
                         items(expenses) { expense ->
-                            ExpenseItem(expense)
+                            ExpenseItemCard(
+                                expense = expense,
+                                onDelete = { id ->
+                                    expensesViewModel.deleteExpense(id)
+                                }
+                            )
                         }
                     }
                 }
+            }
+
+            if (showExpenseDialog) {
+                AddExpenseDialog(
+                    onDismiss = { showExpenseDialog = false },
+                    onAddExpense = { expense ->
+                        expensesViewModel.addExpense(expense)
+                        showExpenseDialog = false
+                    }
+                )
             }
         }
     }
