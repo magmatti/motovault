@@ -48,7 +48,7 @@ fun ExpensesScreen(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val expenses by expensesViewModel.expenses.collectAsState()
 
-    var showExpenseDialog by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -66,7 +66,7 @@ fun ExpensesScreen(
             bottomBar = { AppNavigationBar(navController, viewModel) },
             floatingActionButton = {
                 ExtendedFloatingActionButton(
-                    onClick = { showExpenseDialog = true },
+                    onClick = { showDialog = true },
                     icon = { Icon(Icons.Filled.Money, "Add Icon") },
                     text = { Text(text = "New expense") },
                 )
@@ -94,12 +94,12 @@ fun ExpensesScreen(
                 }
             }
 
-            if (showExpenseDialog) {
+            if (showDialog) {
                 AddExpenseDialog(
-                    onDismiss = { showExpenseDialog = false },
+                    onDismiss = { showDialog = false },
                     onAddExpense = { expense ->
                         expensesViewModel.addExpense(expense)
-                        showExpenseDialog = false
+                        showDialog = false
                     }
                 )
             }

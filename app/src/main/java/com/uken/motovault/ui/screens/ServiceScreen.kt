@@ -17,7 +17,10 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -27,7 +30,8 @@ import com.uken.motovault.sign_in.google_sign_in.UserData
 import com.uken.motovault.ui.composables.app_navigation_drawer.AppNavigationDrawer
 import com.uken.motovault.ui.composables.navigationbar.AppNavigationBar
 import com.uken.motovault.ui.composables.navigationbar.NavigationBarViewModel
-import com.uken.motovault.ui.composables.service_screen.ServiceItem
+import com.uken.motovault.ui.composables.service_screen.AddServiceDialog
+import com.uken.motovault.ui.composables.service_screen.ServiceItemCard
 import com.uken.motovault.ui.composables.top_app_bar.TopAppBar
 import com.uken.motovault.viewmodels.ServicesViewModel
 
@@ -43,6 +47,8 @@ fun ServiceScreen(
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val services by servicesViewModel.services.collectAsState()
+
+    var showDialog by remember { mutableStateOf(false) }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -60,7 +66,7 @@ fun ServiceScreen(
             bottomBar = { AppNavigationBar(navController, viewModel) },
             floatingActionButton = {
                 ExtendedFloatingActionButton(
-                    onClick = { /* To do */ },
+                    onClick = { showDialog = true },
                     icon = { Icon(Icons.Filled.Handyman, "Add Icon") },
                     text = { Text(text = "New service") },
                 )
@@ -77,11 +83,26 @@ fun ServiceScreen(
                 } else {
                     LazyColumn {
                         items(services) { service ->
-                            ServiceItem(service)
+                            ServiceItemCard(
+                                service = service,
+                                onDelete = { id ->
+                                    servicesViewModel.deleteService(id)
+                                }
+                            )
                         }
                     }
                 }
             }
         }
+    }
+
+    if (showDialog) {
+        AddServiceDialog(
+            onDismiss = { showDialog = false },
+            onAddService = { service ->
+                servicesViewModel.addService(service)
+                showDialog = false
+            }
+        )
     }
 }

@@ -1,5 +1,6 @@
 package com.uken.motovault.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.uken.motovault.models.ServiceModel
@@ -7,21 +8,52 @@ import com.uken.motovault.retrofit.RetrofitInstance
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import retrofit2.Response
 
 class ServicesViewModel: ViewModel() {
 
     private val _services = MutableStateFlow<List<ServiceModel>>(emptyList())
     val services: StateFlow<List<ServiceModel>> = _services
 
-    init {
-        fetchServices()
+    companion object {
+        const val TAG = "ServicesViewModel"
     }
 
-    private fun fetchServices() {
+    init {
+        getServices()
+    }
+
+    private fun getServices() {
         viewModelScope.launch {
             try {
                 val fetchedServices = RetrofitInstance.servicesApi.getServices()
                 _services.value = fetchedServices
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun addService(service: ServiceModel) {
+        viewModelScope.launch {
+            try {
+                val addedService = RetrofitInstance.servicesApi.addService(service)
+                _services.value = _services.value + addedService
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun deleteService(id: Int) {
+        viewModelScope.launch {
+            try {
+                val response: Response<Unit> = RetrofitInstance.servicesApi.deleteService(id)
+                if (response.isSuccessful) {
+                    getServices()
+                } else {
+                    Log.d(TAG, "deleteService: $response")
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
