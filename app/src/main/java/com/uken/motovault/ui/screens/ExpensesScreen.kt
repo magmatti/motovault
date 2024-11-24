@@ -49,7 +49,7 @@ fun ExpensesScreen(
     val expenses by expensesViewModel.expenses.collectAsState()
 
     var showExpenseDialog by remember { mutableStateOf(false) }
-    Text("siema")
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
