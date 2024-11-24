@@ -11,16 +11,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -38,6 +35,7 @@ import com.uken.motovault.sign_in.email_sign_in.EmailSignInViewModel
 import com.uken.motovault.sign_in.google_sign_in.UserData
 import com.uken.motovault.ui.Routes
 import com.uken.motovault.ui.composables.app_navigation_drawer.AppNavigationDrawer
+import com.uken.motovault.ui.composables.home_screen.AddVehicleDialog
 import com.uken.motovault.ui.composables.home_screen.VehicleItem
 import com.uken.motovault.ui.composables.navigationbar.AppNavigationBar
 import com.uken.motovault.ui.composables.navigationbar.NavigationBarViewModel
@@ -54,8 +52,6 @@ fun HomeScreen(
     homeViewModel: HomeViewModel = viewModel()
 ) {
     var showDialog by remember { mutableStateOf(false) }
-    var vehicleName by remember { mutableStateOf("") }
-    var vinNumber by remember { mutableStateOf("") }
     val vehicleList by homeViewModel.vehicles.collectAsState()
 
     val scope = rememberCoroutineScope()
@@ -108,48 +104,11 @@ fun HomeScreen(
     }
 
     if (showDialog) {
-        AlertDialog(
-            onDismissRequest = { showDialog = false },
-            title = {
-                Text(text = "Add Vehicle")
-            },
-            text = {
-                Column {
-                    OutlinedTextField(
-                        value = vehicleName,
-                        onValueChange = { vehicleName = it },
-                        label = { Text("Vehicle Name") }
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    OutlinedTextField(
-                        value = vinNumber,
-                        onValueChange = { vinNumber = it },
-                        label = { Text("VIN Number") }
-                    )
-                }
-            },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-//                        if (vehicleName.isNotBlank() && vinNumber.isNotBlank()) {
-//                            vehicleList = vehicleList + VehicleInfo(
-//                                name = vehicleName,
-//                                vin = vinNumber
-//                            )
-//                            vehicleName = ""
-//                            vinNumber = ""
-//                        }
-                        showDialog = false
-                    }
-                ) {
-                    Text("Add")
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { showDialog = false }) {
-                    Text("Cancel")
-                }
-            }
+        AddVehicleDialog(
+            onDismiss = { showDialog = false },
+//            onAddService = {
+//                showDialog = false
+//            }
         )
     }
 }

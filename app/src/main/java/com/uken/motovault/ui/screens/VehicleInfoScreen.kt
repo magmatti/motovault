@@ -5,15 +5,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.uken.motovault.ui.composables.misc.TopAppBarWithBackButton
 import com.uken.motovault.ui.composables.navigationbar.AppNavigationBar
 import com.uken.motovault.ui.composables.vehicle_info_screen.VehicleDetails
 import com.uken.motovault.viewmodels.VehicleViewModel
@@ -24,7 +23,6 @@ fun VehicleInfoScreen(
     vehicleViewModel: VehicleViewModel = viewModel(),
     vin: String
 ) {
-
     val vehicle = vehicleViewModel.vehicleState
 
     LaunchedEffect(vin) {
@@ -32,6 +30,7 @@ fun VehicleInfoScreen(
     }
 
     Scaffold(
+        topBar = { TopAppBarWithBackButton("Car Info", navController) },
         bottomBar = { AppNavigationBar(navController) }
     ) { paddingValues ->
         Column(
@@ -39,12 +38,6 @@ fun VehicleInfoScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            Text(
-                text = "Car info",
-                style = MaterialTheme.typography.headlineLarge,
-                modifier = Modifier
-                    .align(Alignment.Start)
-            )
             if (vehicle != null) {
                 VehicleDetails(vehicle.vin.toString(), "VIN")
                 VehicleDetails(vehicle.make.toString(), "Make")

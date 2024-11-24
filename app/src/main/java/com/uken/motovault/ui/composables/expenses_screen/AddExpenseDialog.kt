@@ -2,8 +2,13 @@ package com.uken.motovault.ui.composables.expenses_screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DocumentScanner
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -72,6 +77,13 @@ fun AddExpenseDialog(
             }
         },
         dismissButton = {
+            TextButton(
+                onClick = { /* To do */ }
+            ) {
+                Icon(Icons.Filled.DocumentScanner, "DocumentScanner")
+                Text("Scan")
+            }
+            Spacer(modifier = Modifier.padding(16.dp))
             TextButton(onClick = onDismiss) {
                 Text("Cancel")
             }
