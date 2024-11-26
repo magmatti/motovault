@@ -1,24 +1,17 @@
 package com.uken.motovault.ui.screens
 
-import android.content.Intent
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForwardIos
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,15 +25,21 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.uken.motovault.app_settings.Constants
 import com.uken.motovault.sign_in.email_sign_in.EmailSignInViewModel
 import com.uken.motovault.sign_in.google_sign_in.UserData
+import com.uken.motovault.ui.Routes
 import com.uken.motovault.ui.composables.app_navigation_drawer.AppNavigationDrawer
 import com.uken.motovault.ui.composables.navigationbar.AppNavigationBar
 import com.uken.motovault.ui.composables.navigationbar.NavigationBarViewModel
+import com.uken.motovault.ui.composables.settings_screen.NotificationSettingRow
+import com.uken.motovault.ui.composables.settings_screen.OilChangeIntervalRow
+import com.uken.motovault.ui.composables.settings_screen.SettingsModalBottomSheetList
+import com.uken.motovault.ui.composables.settings_screen.SettingsNavigationButton
 import com.uken.motovault.ui.composables.settings_screen.SettingsSectionTitle
 import com.uken.motovault.ui.composables.top_app_bar.TopAppBar
+import com.uken.motovault.utilities.IntentUtilities
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     navController: NavController,
@@ -49,12 +48,16 @@ fun SettingsScreen(
     emailSignInViewModel: EmailSignInViewModel = viewModel(),
     viewModel: NavigationBarViewModel = viewModel()
 ) {
+    val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val context = LocalContext.current
 
     var notificationsEnabled by remember { mutableStateOf(true) }
+
     var oilChangeInterval by remember { mutableStateOf("Every year") }
+    var showBottomSheet by remember { mutableStateOf(false) }
+    val sheetState = rememberModalBottomSheetState()
+    val bottomSheetOptions = listOf("Every year", "6 months", "3 months")
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -78,79 +81,54 @@ fun SettingsScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(modifier = Modifier.padding(top = 8.dp))
+
                 SettingsSectionTitle("Notifications")
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(text = "Enable notifications")
-                    Switch(
-                        checked = notificationsEnabled,
-                        onCheckedChange = { notificationsEnabled = it }
-                    )
-                }
+
+                NotificationSettingRow(
+                    notificationsEnabled = notificationsEnabled,
+                    onToggle = { notificationsEnabled = it }
+                )
 
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(text = "Oil change interval")
-                    TextButton(
-                        onClick = { /* Handle interval change */ }
-                    ) {
-                        Text(oilChangeInterval)
-                    }
-                }
+                OilChangeIntervalRow(
+                    oilChangeInterval = oilChangeInterval,
+                    onClick = { showBottomSheet = true }
+                )
 
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
 
                 SettingsSectionTitle("App")
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp, vertical = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    TextButton(onClick = {  }) {
-                        Text("About app")
-                        Icon(Icons.Filled.ArrowForwardIos, contentDescription = "ArrowForwardIos")
-                    }
-                }
+                SettingsNavigationButton(
+                    "About app",
+                    onClick = { navController.navigate(Routes.ABOUT_APP_SCREEN) }
+                )
 
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
 
                 SettingsSectionTitle("Issues", color = Color.Red)
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp, vertical = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    TextButton(
-                        onClick = {
-                            val emailIntent = Intent(Intent.ACTION_SEND).apply {
-                                type = "plain/text"
-                                putExtra(Intent.EXTRA_EMAIL, arrayOf(Constants.SUPPORT_EMAIL))
-                                putExtra(Intent.EXTRA_SUBJECT, "Bug Report")
-                                putExtra(Intent.EXTRA_TEXT, "Bug description: ")
-                            }
-                            context.startActivity(emailIntent) }
-                    ) {
-                        Text("Report bug")
-                        Icon(Icons.Filled.ArrowForwardIos, contentDescription = "ArrowForwardIos")
+                SettingsNavigationButton(
+                    "Report bug",
+                    onClick = {
+                        IntentUtilities.startSupportEmailIntent(context)
                     }
+                )
+            }
+
+            if (showBottomSheet) {
+                ModalBottomSheet(
+                    onDismissRequest = { showBottomSheet = false },
+                    sheetState = sheetState
+                ) {
+                    SettingsModalBottomSheetList(
+                        options = bottomSheetOptions,
+                        selectedOption = oilChangeInterval,
+                        onOptionSelected = { selectedOption ->
+                            oilChangeInterval = selectedOption
+                            showBottomSheet = false
+                        }
+                    )
                 }
             }
         }

@@ -21,6 +21,7 @@ import com.uken.motovault.sign_in.email_sign_in.EmailAuthState
 import com.uken.motovault.sign_in.email_sign_in.EmailSignInViewModel
 import com.uken.motovault.sign_in.google_sign_in.GoogleAuthUiClient
 import com.uken.motovault.sign_in.google_sign_in.SignInViewModel
+import com.uken.motovault.ui.screens.AboutAppScreen
 import com.uken.motovault.ui.screens.AccountScreen
 import com.uken.motovault.ui.screens.ExpensesScreen
 import com.uken.motovault.ui.screens.HomeScreen
@@ -189,6 +190,10 @@ fun AppNavigation(
                 }
 
                 SignUpScreen(navController, emailSignInViewModel)
+            }
+
+            composable(Routes.ABOUT_APP_SCREEN) {
+                AboutAppScreen(navController)
             }
         }
     )
