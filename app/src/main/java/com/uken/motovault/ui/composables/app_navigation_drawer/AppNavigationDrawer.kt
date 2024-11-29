@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -53,6 +54,12 @@ fun AppNavigationDrawer(
                     style = MaterialTheme.typography.headlineMedium
                 )
                 HorizontalDivider()
+                NavigationDrawerItem(
+                    icon = { Icon(Icons.Filled.Home, contentDescription = "Home") },
+                    label = { Text(text = "Home") },
+                    selected = false,
+                    onClick = { navController.navigate(Routes.HOME_SCREEN) }
+                )
                 NavigationDrawerItem(
                     icon = { Icon(Icons.Filled.Settings, contentDescription = "Settings") },
                     label = { Text(text = "Settings") },
