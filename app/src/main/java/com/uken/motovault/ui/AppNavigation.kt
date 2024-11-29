@@ -23,6 +23,7 @@ import com.uken.motovault.sign_in.google_sign_in.GoogleAuthUiClient
 import com.uken.motovault.sign_in.google_sign_in.SignInViewModel
 import com.uken.motovault.ui.screens.AboutAppScreen
 import com.uken.motovault.ui.screens.AccountScreen
+import com.uken.motovault.ui.screens.CarRemindersScreen
 import com.uken.motovault.ui.screens.ExpensesScreen
 import com.uken.motovault.ui.screens.HomeScreen
 import com.uken.motovault.ui.screens.InsightsScreen
@@ -194,6 +195,10 @@ fun AppNavigation(
 
             composable(Routes.ABOUT_APP_SCREEN) {
                 AboutAppScreen(navController)
+            }
+
+            composable(Routes.CAR_REMINDERS_SCREEN) {
+                CarRemindersScreen(navController)
             }
         }
     )

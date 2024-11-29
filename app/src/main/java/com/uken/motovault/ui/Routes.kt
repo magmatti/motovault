@@ -11,4 +11,5 @@ object Routes {
     const val VEHICLE_INFO_SCREEN = "VehicleInfoScreen"
     const val SIGN_UP_SCREEN = "SignUpScreen"
     const val ABOUT_APP_SCREEN = "AboutAppScreen"
+    const val CAR_REMINDERS_SCREEN = "CarRemindersScreen"
 }

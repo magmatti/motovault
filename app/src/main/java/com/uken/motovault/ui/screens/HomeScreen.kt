@@ -92,9 +92,11 @@ fun HomeScreen(
                 ) {
                     items(vehicleList) { vehicle ->
                         VehicleItem(
-                            vehicle.vin,
                             onDetailsClick = {
                                 navController.navigate(Routes.VEHICLE_INFO_SCREEN)
+                            },
+                            onRemindersClick = {
+                                navController.navigate(Routes.CAR_REMINDERS_SCREEN)
                             }
                         )
                     }
