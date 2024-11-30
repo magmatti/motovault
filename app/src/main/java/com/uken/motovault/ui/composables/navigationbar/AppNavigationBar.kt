@@ -20,6 +20,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.uken.motovault.ui.Routes
+import com.uken.motovault.viewmodels.NavigationBarViewModel
 
 @Composable
 fun AppNavigationBar(

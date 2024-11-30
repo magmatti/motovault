@@ -29,7 +29,7 @@ import androidx.navigation.NavController
 import com.uken.motovault.sign_in.email_sign_in.EmailSignInViewModel
 import com.uken.motovault.sign_in.google_sign_in.UserData
 import com.uken.motovault.ui.Routes
-import com.uken.motovault.ui.composables.account_screen.GoogleAccountProfilePicture
+import com.uken.motovault.ui.screens.account.GoogleAccountProfilePicture
 
 @Composable
 fun AppNavigationDrawer(
