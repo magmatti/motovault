@@ -14,6 +14,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,7 +24,8 @@ import androidx.compose.ui.unit.dp
 fun ReminderCard(
     statusText: String,
     lastActionText: String,
-    onNotifyClick: () -> Unit
+    onNotifyClick: () -> Unit,
+    onAddToCalendarClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -54,10 +56,21 @@ fun ReminderCard(
                 )
             }
             Spacer(modifier = Modifier.width(16.dp))
-            Button(
-                onClick = onNotifyClick
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
-                Text("Notify me")
+                Button(
+                    onClick = onNotifyClick
+                ) {
+                    Text("Notify me")
+                }
+                Spacer(Modifier.padding(4.dp))
+                TextButton(
+                    onClick = onAddToCalendarClick
+                ) {
+                    Text("Save to calendar")
+                }
             }
         }
     }

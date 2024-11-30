@@ -1,6 +1,5 @@
 package com.uken.motovault.ui.screens.home
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,10 +19,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -34,28 +29,23 @@ fun VehicleItem(
     onDetailsClick: () -> Unit,
     onRemindersClick: () -> Unit
 ) {
-    var isExpanded by remember { mutableStateOf(false) }
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
-            .clickable { isExpanded = !isExpanded },
+            .padding(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-            if (isExpanded) {
-                Icon(
+            Icon(
                     imageVector = Icons.Default.DirectionsCarFilled,
-                    contentDescription = "Car Image",
-                    modifier = Modifier
-                        .size(128.dp)
-                        .align(Alignment.CenterHorizontally)
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-            }
+            contentDescription = "Car Image",
+            modifier = Modifier
+                .size(128.dp)
+                .align(Alignment.CenterHorizontally)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -74,40 +64,31 @@ fun VehicleItem(
                         fontWeight = FontWeight.Medium
                     )
                 }
-
-                if (!isExpanded) {
-                    Icon(
-                        imageVector = Icons.Default.DirectionsCarFilled,
-                        contentDescription = "Car Image",
-                        modifier = Modifier.size(48.dp)
-                    )
-                }
             }
 
-            if (isExpanded) {
-                Spacer(modifier = Modifier.height(16.dp))
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TextButton(
+                    onClick = onDetailsClick
                 ) {
-                    TextButton(
-                        onClick = onDetailsClick
-                    ) {
-                        Text("Car Info")
-                        Spacer(Modifier.padding(2.dp))
-                        Icon(Icons.Filled.DirectionsCarFilled, contentDescription = "Analytics Icon")
-                    }
+                    Text("Car Info")
+                    Spacer(Modifier.padding(2.dp))
+                    Icon(Icons.Filled.DirectionsCarFilled, contentDescription = "Analytics Icon")
+                }
 
-                    Spacer(modifier = Modifier.width(16.dp))
+                Spacer(modifier = Modifier.width(16.dp))
 
-                    TextButton(
-                        onClick = onRemindersClick
-                    ) {
-                        Text("Reminders")
-                        Spacer(Modifier.padding(2.dp))
-                        Icon(Icons.Filled.Notifications, contentDescription = "Notification Icon")
-                    }
+                TextButton(
+                    onClick = onRemindersClick
+                ) {
+                    Text("Reminders")
+                    Spacer(Modifier.padding(2.dp))
+                    Icon(Icons.Filled.Notifications, contentDescription = "Notification Icon")
                 }
             }
         }
