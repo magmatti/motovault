@@ -12,16 +12,20 @@ import androidx.compose.material.icons.filled.Alarm
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.uken.motovault.ui.composables.misc.PageInfoBox
 import com.uken.motovault.ui.composables.misc.TopAppBarWithBackButton
 import com.uken.motovault.ui.composables.navigationbar.AppNavigationBar
+import com.uken.motovault.utilities.IntentUtilities
 
 @Composable
 fun CarRemindersScreen(
     navController: NavController
 ) {
+    val context = LocalContext.current
+
     Scaffold(
         topBar = { TopAppBarWithBackButton("Reminders", navController) },
         bottomBar = { AppNavigationBar(navController) }
@@ -46,15 +50,29 @@ fun CarRemindersScreen(
             ) {
                 ReminderCard(
                     statusText = "Oil service status: Valid",
-                    lastActionText = "Last action: 2024-21-11",
+                    lastActionText = "Next action: 2024-12-06",
                     onNotifyClick = { /* Handle notification */ },
-                    onAddToCalendarClick = {  }
+                    onAddToCalendarClick = {
+                        IntentUtilities.addEventToCalendar(
+                            context,
+                            "Oil service",
+                            "It't time to change engine oil",
+                            "2024-12-21"
+                        )
+                    }
                 )
                 ReminderCard(
                     statusText = "Inspection status: Valid",
-                    lastActionText = "Last action: 2024-21-11",
+                    lastActionText = "Next action: 2024-12-06",
                     onNotifyClick = { /* Handle notification */ },
-                    onAddToCalendarClick = {  }
+                    onAddToCalendarClick = {
+                        IntentUtilities.addEventToCalendar(
+                            context,
+                            "Car Inspection",
+                            "Another yearly car inspection",
+                            "2024-12-21"
+                        )
+                    }
                 )
             }
         }
