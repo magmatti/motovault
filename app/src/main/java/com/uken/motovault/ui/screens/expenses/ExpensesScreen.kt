@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Dataset
 import androidx.compose.material.icons.filled.Money
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -30,6 +31,7 @@ import com.uken.motovault.sign_in.google_sign_in.UserData
 import com.uken.motovault.ui.composables.app_navigation_drawer.AppNavigationDrawer
 import com.uken.motovault.ui.composables.navigationbar.AppNavigationBar
 import com.uken.motovault.ui.composables.top_app_bar.TopAppBar
+import com.uken.motovault.utilities.DocumentGeneration
 import com.uken.motovault.viewmodels.ExpensesViewModel
 import com.uken.motovault.viewmodels.NavigationBarViewModel
 
@@ -45,8 +47,9 @@ fun ExpensesScreen(
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val expenses by expensesViewModel.expenses.collectAsState()
-
     var showDialog by remember { mutableStateOf(false) }
+
+    val actionIcon = Icons.Default.Dataset
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -60,7 +63,15 @@ fun ExpensesScreen(
         }
     ) {
         Scaffold(
-            topBar = { TopAppBar(scope, drawerState, "Expenses") },
+            topBar = {
+                TopAppBar(
+                    scope = scope,
+                    drawerState = drawerState,
+                    screenTitle = "Expenses",
+                    actionIcon = actionIcon,
+                    onActionClick = { DocumentGeneration.testOnActionClick() }
+                )
+            },
             bottomBar = { AppNavigationBar(navController, viewModel) },
             floatingActionButton = {
                 ExtendedFloatingActionButton(

@@ -11,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -20,7 +21,9 @@ import kotlinx.coroutines.launch
 fun TopAppBar(
     scope: CoroutineScope,
     drawerState: DrawerState,
-    screenTitle: String
+    screenTitle: String,
+    actionIcon: ImageVector? = null,
+    onActionClick: (() -> Unit)? = null
 ) {
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -40,6 +43,16 @@ fun TopAppBar(
                     imageVector = Icons.Filled.Menu,
                     contentDescription = "Menu"
                 )
+            }
+        },
+        actions = {
+            if (actionIcon != null && onActionClick != null) {
+                IconButton(onClick = onActionClick) {
+                    Icon(
+                        imageVector = actionIcon,
+                        contentDescription = actionIcon.name
+                    )
+                }
             }
         }
     )

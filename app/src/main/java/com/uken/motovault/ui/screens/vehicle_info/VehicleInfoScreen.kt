@@ -2,6 +2,7 @@ package com.uken.motovault.ui.screens.vehicle_info
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -9,15 +10,18 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.uken.motovault.ui.composables.misc.PageInfoBox
 import com.uken.motovault.ui.composables.misc.TopAppBarWithBackButton
 import com.uken.motovault.ui.composables.navigationbar.AppNavigationBar
+import com.uken.motovault.utilities.DocumentGeneration
 import com.uken.motovault.viewmodels.VehicleViewModel
 
 @Composable
@@ -46,6 +50,15 @@ fun VehicleInfoScreen(
                     imageVector = Icons.Default.Info,
                     contentDescription = "Info"
                 )
+                TextButton(
+                    onClick = { DocumentGeneration.testOnActionClick() },
+                ) {
+                    Text(
+                        "Save to PDF",
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Right
+                    )
+                }
             }
 
             if (vehicle != null) {

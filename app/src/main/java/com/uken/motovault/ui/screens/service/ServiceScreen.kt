@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Handyman
+import androidx.compose.material.icons.filled.PictureAsPdf
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -30,6 +31,7 @@ import com.uken.motovault.sign_in.google_sign_in.UserData
 import com.uken.motovault.ui.composables.app_navigation_drawer.AppNavigationDrawer
 import com.uken.motovault.ui.composables.navigationbar.AppNavigationBar
 import com.uken.motovault.ui.composables.top_app_bar.TopAppBar
+import com.uken.motovault.utilities.DocumentGeneration
 import com.uken.motovault.viewmodels.NavigationBarViewModel
 import com.uken.motovault.viewmodels.ServicesViewModel
 
@@ -45,8 +47,9 @@ fun ServiceScreen(
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val services by servicesViewModel.services.collectAsState()
-
     var showDialog by remember { mutableStateOf(false) }
+
+    val actionIcon = Icons.Default.PictureAsPdf
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -60,7 +63,15 @@ fun ServiceScreen(
         }
     ) {
         Scaffold(
-            topBar = { TopAppBar(scope, drawerState, "Service") },
+            topBar = {
+                TopAppBar(
+                    scope = scope,
+                    drawerState = drawerState,
+                    screenTitle = "Service",
+                    actionIcon = actionIcon,
+                    onActionClick = { DocumentGeneration.testOnActionClick() }
+                )
+            },
             bottomBar = { AppNavigationBar(navController, viewModel) },
             floatingActionButton = {
                 ExtendedFloatingActionButton(
