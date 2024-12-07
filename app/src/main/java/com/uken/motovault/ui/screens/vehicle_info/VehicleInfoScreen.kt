@@ -1,5 +1,6 @@
 package com.uken.motovault.ui.screens.vehicle_info
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,13 +16,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.uken.motovault.ui.composables.misc.PageInfoBox
 import com.uken.motovault.ui.composables.misc.TopAppBarWithBackButton
 import com.uken.motovault.ui.composables.navigationbar.AppNavigationBar
-import com.uken.motovault.utilities.DocumentGeneration
 import com.uken.motovault.viewmodels.VehicleViewModel
 
 @Composable
@@ -30,6 +31,7 @@ fun VehicleInfoScreen(
     vehicleViewModel: VehicleViewModel = viewModel(),
     vin: String
 ) {
+    val context = LocalContext.current
     val vehicle = vehicleViewModel.vehicleState
 
     LaunchedEffect(vin) {
@@ -51,7 +53,23 @@ fun VehicleInfoScreen(
                     contentDescription = "Info"
                 )
                 TextButton(
-                    onClick = { DocumentGeneration.testOnActionClick() },
+                    onClick = {
+                        if (vehicle != null) {
+                            val file = vehicleViewModel.generateCarInfoPdf(context)
+                            if (file != null) {
+                                Toast.makeText(context,
+                                    "PDF saved to ${file.absolutePath}",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "Failed to generate PDF.",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        }
+                    },
                 ) {
                     Text(
                         "Save to PDF",

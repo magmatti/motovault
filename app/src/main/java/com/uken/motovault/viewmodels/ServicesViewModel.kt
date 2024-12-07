@@ -1,14 +1,17 @@
 package com.uken.motovault.viewmodels
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.uken.motovault.models.ServiceModel
+import com.uken.motovault.report_generation.ServiceReportGenerator
 import com.uken.motovault.retrofit.RetrofitInstance
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import java.io.File
 
 class ServicesViewModel: ViewModel() {
 
@@ -58,5 +61,12 @@ class ServicesViewModel: ViewModel() {
                 e.printStackTrace()
             }
         }
+    }
+
+    fun generateServicesPdf(context: Context): File? {
+        val servicesList = services.value
+        val pdfGenerator = ServiceReportGenerator()
+
+        return pdfGenerator.generatePdf(context, servicesList)
     }
 }
