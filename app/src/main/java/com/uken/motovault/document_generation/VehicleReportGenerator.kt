@@ -1,4 +1,4 @@
-package com.uken.motovault.report_generation
+package com.uken.motovault.document_generation
 
 import android.content.Context
 import android.graphics.Canvas

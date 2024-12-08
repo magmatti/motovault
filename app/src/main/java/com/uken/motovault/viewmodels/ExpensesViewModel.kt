@@ -1,14 +1,17 @@
 package com.uken.motovault.viewmodels
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.uken.motovault.document_generation.SpreadsheetGenerator
 import com.uken.motovault.models.ExpenseModel
 import com.uken.motovault.retrofit.RetrofitInstance
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import java.io.File
 
 class ExpensesViewModel: ViewModel() {
 
@@ -58,5 +61,12 @@ class ExpensesViewModel: ViewModel() {
                 e.printStackTrace()
             }
         }
+    }
+
+    fun generateSpreadsheet(context: Context): File? {
+        val expensesList = expenses.value
+        val spreadsheetGenerator = SpreadsheetGenerator()
+
+        return spreadsheetGenerator.generateExpenseReport(context, expensesList)
     }
 }

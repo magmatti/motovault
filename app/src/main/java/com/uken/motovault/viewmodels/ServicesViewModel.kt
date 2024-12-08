@@ -4,8 +4,8 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.uken.motovault.document_generation.ServiceReportGenerator
 import com.uken.motovault.models.ServiceModel
-import com.uken.motovault.report_generation.ServiceReportGenerator
 import com.uken.motovault.retrofit.RetrofitInstance
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

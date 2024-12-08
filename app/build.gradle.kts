@@ -44,6 +44,10 @@ android {
 
 dependencies {
 
+    // Apache POI for spredsheet generation
+    implementation("org.apache.poi:poi:5.2.3")
+    implementation("org.apache.poi:poi-ooxml:5.2.3")
+
     implementation(libs.retrofit2.retrofit)
     implementation(libs.converter.gson)
 
