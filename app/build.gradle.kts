@@ -44,9 +44,14 @@ android {
 
 dependencies {
 
-    // Apache POI for spredsheet generation
-    implementation("org.apache.poi:poi:5.2.3")
-    implementation("org.apache.poi:poi-ooxml:5.2.3")
+    // Charts library https://github.com/dautovicharis/Charts
+    val chartsVersion = "1.2.0"
+    implementation("com.github.dautovicharis:Charts:$chartsVersion")
+
+    // Apache POI for spreadsheet generation
+    val poiVersion = "5.2.3"
+    implementation("org.apache.poi:poi:$poiVersion")
+    implementation("org.apache.poi:poi-ooxml:$poiVersion")
 
     implementation(libs.retrofit2.retrofit)
     implementation(libs.converter.gson)
