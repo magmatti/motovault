@@ -1,8 +1,8 @@
 package com.uken.motovault.retrofit
 
-import com.uken.motovault.api_service.ExpensesApiService
-import com.uken.motovault.api_service.ServicesApiService
-import com.uken.motovault.api_service.VehiclesApiService
+import com.uken.motovault.retrofit.api_service.ExpensesApiService
+import com.uken.motovault.retrofit.api_service.ServicesApiService
+import com.uken.motovault.retrofit.api_service.VehiclesApiService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

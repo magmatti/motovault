@@ -23,6 +23,7 @@ import com.uken.motovault.models.ServiceModel
 
 @Composable
 fun AddServiceDialog(
+    userEmail: String,
     onDismiss: () -> Unit,
     onAddService: (ServiceModel) -> Unit,
 ) {
@@ -68,7 +69,8 @@ fun AddServiceDialog(
                         vehicleId = vehicleId.toIntOrNull() ?: 0,
                         serviceType = serviceType,
                         date = date,
-                        total = total.toDoubleOrNull() ?: 0.0
+                        total = total.toDoubleOrNull() ?: 0.0,
+                        mail = userEmail
                     )
                     onAddService(service)
                 }

@@ -5,5 +5,6 @@ data class ServiceModel(
     val vehicleId: Int,
     val serviceType: String,
     val date: String,
-    val total: Double
+    val total: Double,
+    val mail: String
 )

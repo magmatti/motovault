@@ -5,5 +5,6 @@ data class ExpenseModel(
     val vehicleId: Int,
     val expensesType: String,
     val date: String,
-    val total: Double
+    val total: Double,
+    val mail: String?
 )

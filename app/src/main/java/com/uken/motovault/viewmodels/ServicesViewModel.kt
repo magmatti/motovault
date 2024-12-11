@@ -22,14 +22,10 @@ class ServicesViewModel: ViewModel() {
         const val TAG = "ServicesViewModel"
     }
 
-    init {
-        getServices()
-    }
-
-    private fun getServices() {
+    fun getServices(mail: String) {
         viewModelScope.launch {
             try {
-                val fetchedServices = RetrofitInstance.servicesApi.getServices()
+                val fetchedServices = RetrofitInstance.servicesApi.getServices(mail)
                 _services.value = fetchedServices
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -48,12 +44,12 @@ class ServicesViewModel: ViewModel() {
         }
     }
 
-    fun deleteService(id: Int) {
+    fun deleteService(id: Int, mail: String) {
         viewModelScope.launch {
             try {
                 val response: Response<Unit> = RetrofitInstance.servicesApi.deleteService(id)
                 if (response.isSuccessful) {
-                    getServices()
+                    getServices(mail)
                 } else {
                     Log.d(TAG, "deleteService: $response")
                 }

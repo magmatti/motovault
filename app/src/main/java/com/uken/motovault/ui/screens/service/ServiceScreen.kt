@@ -17,8 +17,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -50,8 +52,14 @@ fun ServiceScreen(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val services by servicesViewModel.services.collectAsState()
     var showDialog by remember { mutableStateOf(false) }
-
     val actionIcon = Icons.Default.PictureAsPdf
+    val userEmail by emailSignInViewModel.userEmail.observeAsState()
+
+    LaunchedEffect(userEmail) {
+        userEmail?.let { email ->
+            servicesViewModel.getServices(userEmail!!)
+        }
+    }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -111,7 +119,7 @@ fun ServiceScreen(
                             ServiceItemCard(
                                 service = service,
                                 onDelete = { id ->
-                                    servicesViewModel.deleteService(id)
+                                    servicesViewModel.deleteService(id, userEmail!!)
                                 }
                             )
                         }
@@ -123,6 +131,7 @@ fun ServiceScreen(
 
     if (showDialog) {
         AddServiceDialog(
+            userEmail!!,
             onDismiss = { showDialog = false },
             onAddService = { service ->
                 servicesViewModel.addService(service)

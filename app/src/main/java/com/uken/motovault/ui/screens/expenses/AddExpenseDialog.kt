@@ -23,6 +23,7 @@ import com.uken.motovault.models.ExpenseModel
 
 @Composable
 fun AddExpenseDialog(
+    userEmail: String?,
     onDismiss: () -> Unit,
     onAddExpense: (ExpenseModel) -> Unit,
 ) {
@@ -68,7 +69,8 @@ fun AddExpenseDialog(
                         vehicleId = vehicleId.toIntOrNull() ?: 0,
                         expensesType = expensesType,
                         date = date,
-                        total = total.toDoubleOrNull() ?: 0.0
+                        total = total.toDoubleOrNull() ?: 0.0,
+                        mail = userEmail
                     )
                     onAddExpense(expense)
                 }

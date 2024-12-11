@@ -22,14 +22,10 @@ class ExpensesViewModel: ViewModel() {
         const val TAG = "ExpensesViewModel"
     }
 
-    init {
-        getExpenses()
-    }
-
-    private fun getExpenses() {
+    fun getExpenses(mail: String) {
         viewModelScope.launch {
             try {
-                val fetchedExpenses = RetrofitInstance.expensesApi.getExpenses()
+                val fetchedExpenses = RetrofitInstance.expensesApi.getExpenses(mail)
                 _expenses.value = fetchedExpenses
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -48,12 +44,12 @@ class ExpensesViewModel: ViewModel() {
         }
     }
 
-    fun deleteExpense(id: Int) {
+    fun deleteExpense(id: Int, mail: String) {
         viewModelScope.launch {
             try {
                 val response: Response<Unit> = RetrofitInstance.expensesApi.deleteExpense(id)
                 if (response.isSuccessful) {
-                    getExpenses()
+                    getExpenses(mail)
                 } else {
                     Log.d(TAG, "deleteExpense: $response")
                 }
