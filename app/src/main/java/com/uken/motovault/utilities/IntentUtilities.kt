@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.provider.CalendarContract
 import android.util.Log
-import com.uken.motovault.app_settings.Constants
+import com.uken.motovault.R
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
@@ -16,7 +16,7 @@ object IntentUtilities {
     fun startSupportEmailIntent(context: Context) {
         val emailIntent = Intent(Intent.ACTION_SEND).apply {
             type = "plain/text"
-            putExtra(Intent.EXTRA_EMAIL, arrayOf(Constants.SUPPORT_EMAIL))
+            putExtra(Intent.EXTRA_EMAIL, arrayOf(context.getString(R.string.support_email)))
             putExtra(Intent.EXTRA_SUBJECT, "Bug Report")
             putExtra(Intent.EXTRA_TEXT, "Bug description: ")
         }

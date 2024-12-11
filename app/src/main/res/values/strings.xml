@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MotoVault</string>
     <string name="web_client_id">1011551261192-cpmqc9l8r8kd1jaju713mmgtbhbjf8fr.apps.googleusercontent.com</string>
+    <string name="support_email">support@moto-vault.com</string>
 </resources>

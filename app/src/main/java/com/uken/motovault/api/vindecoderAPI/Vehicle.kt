@@ -1,4 +1,4 @@
-package com.uken.motovault.vindecoderAPI
+package com.uken.motovault.api.vindecoderAPI
 
 import org.json.JSONObject
 

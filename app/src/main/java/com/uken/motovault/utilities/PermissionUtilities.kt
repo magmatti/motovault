@@ -1,4 +1,4 @@
-package com.uken.motovault.permissions
+package com.uken.motovault.utilities
 
 import android.Manifest
 import android.app.Activity

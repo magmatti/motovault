@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.uken.motovault.permissions.PermissionUtilities
+import com.uken.motovault.utilities.PermissionUtilities
 import com.uken.motovault.ui.composables.misc.PageInfoBox
 import com.uken.motovault.ui.composables.misc.TopAppBarWithBackButton
 import com.uken.motovault.ui.composables.navigationbar.AppNavigationBar

@@ -1,4 +1,4 @@
-package com.uken.motovault.retrofit.api_service
+package com.uken.motovault.api.retrofit.api_service
 
 import com.uken.motovault.models.ServiceModel
 import retrofit2.Response

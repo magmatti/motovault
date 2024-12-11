@@ -3,7 +3,7 @@ package com.uken.motovault.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.uken.motovault.models.VehicleModel
-import com.uken.motovault.retrofit.RetrofitInstance
+import com.uken.motovault.api.retrofit.RetrofitInstance
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

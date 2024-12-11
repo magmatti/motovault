@@ -6,7 +6,7 @@ import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
 import android.os.Environment
 import android.util.Log
-import com.uken.motovault.vindecoderAPI.Vehicle
+import com.uken.motovault.api.vindecoderAPI.Vehicle
 import java.io.File
 import java.io.FileOutputStream
 
