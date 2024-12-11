@@ -8,8 +8,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavController
 
@@ -17,7 +19,9 @@ import androidx.navigation.NavController
 @Composable
 fun TopAppBarWithBackButton(
     screenTitle: String,
-    navController: NavController
+    navController: NavController,
+    textButtonString: String? = null,
+    onActionClick: (() -> Unit)? = null
 ) {
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -33,6 +37,16 @@ fun TopAppBarWithBackButton(
                     imageVector = Icons.Filled.ArrowBackIosNew,
                     contentDescription = "ArrowBackIosNew"
                 )
+            }
+        },
+        actions = {
+            if (textButtonString != null && onActionClick != null) {
+                TextButton(onClick = onActionClick) {
+                    Text(
+                        text = textButtonString,
+                        color = Color.Red
+                    )
+                }
             }
         }
     )

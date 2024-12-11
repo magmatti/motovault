@@ -39,7 +39,14 @@ fun VehicleInfoScreen(
     }
 
     Scaffold(
-        topBar = { TopAppBarWithBackButton("Car Info", navController) },
+        topBar = {
+            TopAppBarWithBackButton(
+                "Car Info",
+                navController,
+                "Delete car",
+                onActionClick = { /* To do */ }
+            )
+        },
         bottomBar = { AppNavigationBar(navController) }
     ) { paddingValues ->
         LazyColumn(

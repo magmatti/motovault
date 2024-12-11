@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun AddVehicleDialog(
     onDismiss: () -> Unit,
-//    onAddService: (ServiceModel) -> Unit, to be added later
+//    onAddVehicle: (ServiceModel) -> Unit
 ) {
     var vehicleName by remember { mutableStateOf("") }
     var vinNumber by remember { mutableStateOf("") }

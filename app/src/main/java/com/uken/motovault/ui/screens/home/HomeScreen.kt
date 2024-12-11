@@ -51,7 +51,6 @@ fun HomeScreen(
 ) {
     var showDialog by remember { mutableStateOf(false) }
     val vehicleList by homeViewModel.vehicles.collectAsState()
-
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
 
