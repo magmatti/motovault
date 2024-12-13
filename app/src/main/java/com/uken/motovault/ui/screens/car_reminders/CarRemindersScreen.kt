@@ -17,12 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.uken.motovault.utilities.PermissionUtilities
 import com.uken.motovault.ui.composables.misc.PageInfoBox
 import com.uken.motovault.ui.composables.misc.TopAppBarWithBackButton
 import com.uken.motovault.ui.composables.navigationbar.AppNavigationBar
 import com.uken.motovault.utilities.IntentUtilities
 import com.uken.motovault.utilities.NotificationUtilities
+import com.uken.motovault.utilities.PermissionUtilities
 
 @Composable
 fun CarRemindersScreen(
