@@ -32,7 +32,6 @@ import com.uken.motovault.ui.screens.service.ServiceScreen
 import com.uken.motovault.ui.screens.settings.SettingsScreen
 import com.uken.motovault.ui.screens.sign_up.SignUpScreen
 import com.uken.motovault.ui.screens.vehicle_info.VehicleInfoScreen
-import com.uken.motovault.viewmodels.VehicleViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -172,8 +171,7 @@ fun AppNavigation(
                 )
             }
             composable(Routes.VEHICLE_INFO_SCREEN) {
-                val viewModel = viewModel<VehicleViewModel>()
-                VehicleInfoScreen(navController, viewModel, "VF1BG0N0526997886")
+                VehicleInfoScreen(navController)
             }
 
             composable(Routes.SIGN_UP_SCREEN) {

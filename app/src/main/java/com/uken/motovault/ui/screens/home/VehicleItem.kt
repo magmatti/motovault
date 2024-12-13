@@ -39,11 +39,11 @@ fun VehicleItem(
             modifier = Modifier.padding(16.dp)
         ) {
             Icon(
-                    imageVector = Icons.Default.DirectionsCarFilled,
-            contentDescription = "Car Image",
-            modifier = Modifier
-                .size(128.dp)
-                .align(Alignment.CenterHorizontally)
+                imageVector = Icons.Default.DirectionsCarFilled,
+                contentDescription = "Car Image",
+                modifier = Modifier
+                    .size(128.dp)
+                    .align(Alignment.CenterHorizontally)
             )
             Spacer(modifier = Modifier.height(8.dp))
 

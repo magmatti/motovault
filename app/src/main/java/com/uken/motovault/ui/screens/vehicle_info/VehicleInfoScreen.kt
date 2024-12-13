@@ -14,28 +14,37 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.uken.motovault.sign_in.email_sign_in.EmailSignInViewModel
 import com.uken.motovault.ui.composables.misc.PageInfoBox
 import com.uken.motovault.ui.composables.misc.TopAppBarWithBackButton
 import com.uken.motovault.ui.composables.navigationbar.AppNavigationBar
+import com.uken.motovault.viewmodels.HomeViewModel
 import com.uken.motovault.viewmodels.VehicleViewModel
 
 @Composable
 fun VehicleInfoScreen(
     navController: NavController,
     vehicleViewModel: VehicleViewModel = viewModel(),
-    vin: String
+    homeViewModel: HomeViewModel = viewModel(),
+    emailSignInViewModel: EmailSignInViewModel = viewModel()
 ) {
     val context = LocalContext.current
     val vehicle = vehicleViewModel.vehicleState
+    val userEmail by emailSignInViewModel.userEmail.observeAsState()
 
-    LaunchedEffect(vin) {
-        vehicleViewModel.fetchVehicleInfo(vin)
+    val vehicleId = navController.currentBackStackEntry?.arguments?.getString("id")
+    val vehicleVin = navController.currentBackStackEntry?.arguments?.getString("vin")
+
+    LaunchedEffect(Unit) {
+        vehicleViewModel.fetchVehicleInfo(vehicleVin!!)
     }
 
     Scaffold(
@@ -44,7 +53,10 @@ fun VehicleInfoScreen(
                 "Car Info",
                 navController,
                 "Delete car",
-                onActionClick = { /* To do */ }
+                onActionClick = {
+                    homeViewModel.deleteVehicle(vehicleId!!.toInt(), userEmail!!)
+                    navController.popBackStack()
+                }
             )
         },
         bottomBar = { AppNavigationBar(navController) }

@@ -20,8 +20,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -53,6 +55,13 @@ fun HomeScreen(
     val vehicleList by homeViewModel.vehicles.collectAsState()
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val userEmail by emailSignInViewModel.userEmail.observeAsState()
+
+    LaunchedEffect(userEmail) {
+        userEmail?.let { email ->
+            homeViewModel.fetchVehicles(email)
+        }
+    }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -90,7 +99,9 @@ fun HomeScreen(
                     items(vehicleList) { vehicle ->
                         VehicleItem(
                             onDetailsClick = {
-                                navController.navigate(Routes.VEHICLE_INFO_SCREEN)
+                                navController.navigate(
+                                    "VehicleInfoScreen/${vehicle.id}/${vehicle.vin}"
+                                )
                             },
                             onRemindersClick = {
                                 navController.navigate(Routes.CAR_REMINDERS_SCREEN)
@@ -105,9 +116,11 @@ fun HomeScreen(
     if (showDialog) {
         AddVehicleDialog(
             onDismiss = { showDialog = false },
-//            onAddService = {
-//                showDialog = false
-//            }
+            onAddVehicle = { vehicle ->
+                homeViewModel.addVehicle(vehicle)
+                showDialog = false
+            },
+            email = userEmail!!
         )
     }
 }

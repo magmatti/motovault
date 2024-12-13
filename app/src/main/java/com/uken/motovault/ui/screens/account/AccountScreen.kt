@@ -14,6 +14,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,6 +40,7 @@ fun AccountScreen(
 ) {
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val userEmail by emailSignInViewModel.userEmail.observeAsState()
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -75,6 +78,7 @@ fun AccountScreen(
                         GoogleAccountProfilePicture(userData, 100.dp)
                         Spacer(modifier = Modifier.height(16.dp))
 
+                        Text(userEmail.toString())
                         GoogleAccountUserName(userData, 24.sp)
                         Spacer(modifier = Modifier.height(16.dp))
 
