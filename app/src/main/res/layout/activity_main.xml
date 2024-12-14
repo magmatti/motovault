@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scaleType="fitCenter"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/btnTakePhoto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Zrób zdjęcie" />
+
+    <Button
+        android:id="@+id/btnChooseFromGallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Wybierz z galerii" />
+
+    <Button
+        android:id="@+id/btnUpload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Wyślij do mikroserwisu" />
+
+    <TextView
+        android:id="@+id/tvResponse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:text="Odpowiedź serwera wyświetli się tutaj" />
+
+</LinearLayout>

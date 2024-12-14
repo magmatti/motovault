@@ -27,10 +27,7 @@ class HomeViewModel: ViewModel() {
     fun fetchVehicles(mail: String) {
         viewModelScope.launch {
             try {
-                // Step 1: Fetch the initial list of vehicles
                 val fetchedVehicles = RetrofitInstance.vehiclesApi.getVehicles(mail)
-
-                // Step 2: Enrich the fetched vehicles with make and model
                 fetchedVehicles.forEach { vehicle ->
                     try {
                         val vehicleInfo = withContext(Dispatchers.IO) {
@@ -42,8 +39,6 @@ class HomeViewModel: ViewModel() {
                         Log.e(TAG, "Error fetching VehicleInfo for VIN: ${vehicle.vin}", e)
                     }
                 }
-
-                // Step 3: Update the state
                 _vehicles.value = fetchedVehicles
                 Log.d(TAG, "fetchVehicles: ${_vehicles.value}")
             } catch (e: Exception) {

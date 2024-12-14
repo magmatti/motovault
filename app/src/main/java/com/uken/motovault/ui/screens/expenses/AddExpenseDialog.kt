@@ -1,5 +1,6 @@
 package com.uken.motovault.ui.screens.expenses
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -20,12 +21,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.uken.motovault.models.ExpenseModel
+import com.uken.motovault.utilities.IntentUtilities
 
 @Composable
 fun AddExpenseDialog(
+    context: Context,
     userEmail: String?,
     onDismiss: () -> Unit,
-    onAddExpense: (ExpenseModel) -> Unit,
+    onAddExpense: (ExpenseModel) -> Unit
 ) {
     var vehicleId by remember { mutableStateOf("") }
     var expensesType by remember { mutableStateOf("") }
@@ -80,7 +83,7 @@ fun AddExpenseDialog(
         },
         dismissButton = {
             TextButton(
-                onClick = { /* To do */ }
+                onClick = { IntentUtilities.launchTextRecognitionActivity(context) }
             ) {
                 Icon(Icons.Filled.DocumentScanner, "DocumentScanner")
                 Text("Scan")

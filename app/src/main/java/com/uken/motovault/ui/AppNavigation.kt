@@ -38,7 +38,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun AppNavigation(
     context: Context,
-    googleAuthUiClient: GoogleAuthUiClient
+    googleAuthUiClient: GoogleAuthUiClient,
 ) {
     val navController = rememberNavController()
     val coroutineScope = rememberCoroutineScope()

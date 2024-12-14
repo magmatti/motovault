@@ -44,6 +44,13 @@ android {
 
 dependencies {
 
+    // Text recognition
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation("androidx.activity:activity:1.7.2")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    implementation("com.google.mlkit:text-recognition:16.0.1")
+
     // Charts library https://github.com/dautovicharis/Charts
     val chartsVersion = "1.2.0"
     implementation("com.github.dautovicharis:Charts:$chartsVersion")

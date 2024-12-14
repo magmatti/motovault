@@ -130,6 +130,7 @@ fun ExpensesScreen(
 
             if (showDialog) {
                 AddExpenseDialog(
+                    context,
                     userEmail,
                     onDismiss = { showDialog = false },
                     onAddExpense = { expense ->
