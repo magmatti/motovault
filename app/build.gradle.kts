@@ -44,6 +44,9 @@ android {
 
 dependencies {
 
+    // DataStore
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
+
     // Text recognition
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation("androidx.activity:activity:1.7.2")

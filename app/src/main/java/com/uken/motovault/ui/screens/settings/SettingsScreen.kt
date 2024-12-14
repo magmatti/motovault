@@ -13,6 +13,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,6 +26,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.uken.motovault.datastores.OilChangeIntervalDataStore
 import com.uken.motovault.sign_in.email_sign_in.EmailSignInViewModel
 import com.uken.motovault.sign_in.google_sign_in.UserData
 import com.uken.motovault.ui.Routes
@@ -33,6 +35,7 @@ import com.uken.motovault.ui.composables.navigationbar.AppNavigationBar
 import com.uken.motovault.ui.composables.top_app_bar.TopAppBar
 import com.uken.motovault.utilities.IntentUtilities
 import com.uken.motovault.viewmodels.NavigationBarViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,10 +49,10 @@ fun SettingsScreen(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-
     var notificationsEnabled by remember { mutableStateOf(true) }
-
-    var oilChangeInterval by remember { mutableStateOf("Every year") }
+    val oilChangeIntervalDataStore = remember { OilChangeIntervalDataStore(context) }
+    val oilChangeInterval by oilChangeIntervalDataStore.oilChangeInterval
+        .collectAsState(initial = "Every year")
     var showBottomSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
     val bottomSheetOptions = listOf("Every year", "6 months", "3 months")
@@ -120,7 +123,11 @@ fun SettingsScreen(
                         options = bottomSheetOptions,
                         selectedOption = oilChangeInterval,
                         onOptionSelected = { selectedOption ->
-                            oilChangeInterval = selectedOption
+                            scope.launch {
+                                oilChangeIntervalDataStore.saveOilChangeInterval(
+                                    selectedOption
+                                )
+                            }
                             showBottomSheet = false
                         }
                     )
