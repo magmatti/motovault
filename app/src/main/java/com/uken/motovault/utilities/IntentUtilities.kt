@@ -5,7 +5,6 @@ import android.content.Intent
 import android.provider.CalendarContract
 import android.util.Log
 import com.uken.motovault.R
-import com.uken.motovault.TextRecognitionActivity
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
@@ -13,17 +12,6 @@ import java.util.Calendar
 object IntentUtilities {
 
     const val TAG = "IntentUtilities"
-
-     fun launchTextRecognitionActivity(context: Context) {
-        val intent = Intent(context, TextRecognitionActivity::class.java)
-         try {
-             context.startActivity(intent)
-         } catch (e: Exception) {
-             e.printStackTrace()
-             Log.d(TAG, "launchTextRecognitionActivity: $e")
-         }
-     }
-        
 
     fun startSupportEmailIntent(context: Context) {
         val emailIntent = Intent(Intent.ACTION_SEND).apply {

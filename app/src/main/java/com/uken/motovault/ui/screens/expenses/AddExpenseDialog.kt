@@ -1,6 +1,10 @@
 package com.uken.motovault.ui.screens.expenses
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -20,8 +24,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.uken.motovault.TextRecognitionActivity
 import com.uken.motovault.models.ExpenseModel
-import com.uken.motovault.utilities.IntentUtilities
 
 @Composable
 fun AddExpenseDialog(
@@ -34,6 +38,16 @@ fun AddExpenseDialog(
     var expensesType by remember { mutableStateOf("") }
     var date by remember { mutableStateOf("") }
     var total by remember { mutableStateOf("") }
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val suma = result.data?.getStringExtra("suma") ?: ""
+            val recognizedDate = result.data?.getStringExtra("data") ?: ""
+            total = suma
+            date = recognizedDate
+        }
+    }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -83,7 +97,10 @@ fun AddExpenseDialog(
         },
         dismissButton = {
             TextButton(
-                onClick = { IntentUtilities.launchTextRecognitionActivity(context) }
+                onClick = {
+                    val intent = Intent(context, TextRecognitionActivity::class.java)
+                    launcher.launch(intent)
+                }
             ) {
                 Icon(Icons.Filled.DocumentScanner, "DocumentScanner")
                 Text("Scan")

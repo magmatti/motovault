@@ -181,6 +181,7 @@ public class TextRecognitionActivity extends AppCompatActivity {
                             // Przetwarzamy odpowiedź JSON z serwera i wyświetlamy tylko dane
                             String suma = responseModel.getResult().get(0);
                             String data = responseModel.getResult().get(1);
+                            passRecognizedData(suma, data);
                             // Wyświetlamy tylko odpowiedź w formie JSON (suma, data)
                             tvResponse.setText("Suma: " + suma + "\nData: " + data);
                         }
@@ -193,5 +194,13 @@ public class TextRecognitionActivity extends AppCompatActivity {
                 runOnUiThread(() -> Toast.makeText(this, "Błąd połączenia z serwerem", Toast.LENGTH_SHORT).show());
             }
         }).start();
+    }
+
+    private void passRecognizedData(String suma, String data) {
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("suma", suma);
+        resultIntent.putExtra("data", data);
+        setResult(RESULT_OK, resultIntent);
+        finish();
     }
 }
