@@ -68,7 +68,7 @@ class ServiceReportGenerator {
 
     private fun savePdfToFile(context: Context, pdfDocument: PdfDocument): File? {
         val filePath = File(
-            context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
             "MotoVaultServicesReport.pdf"
         )
 

@@ -21,6 +21,9 @@ import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.TextRecognizer;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
+import com.uken.motovault.text_recognition_api.ApiService;
+import com.uken.motovault.text_recognition_api.ResponseModel;
+import com.uken.motovault.text_recognition_api.TextRequest;
 
 import java.io.IOException;
 import java.io.InputStream;

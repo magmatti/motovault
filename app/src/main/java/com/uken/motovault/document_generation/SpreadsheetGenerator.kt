@@ -49,7 +49,7 @@ class SpreadsheetGenerator() {
 
     private fun saveToFile(context: Context): File? {
         val file = File(
-            context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
             "MotoVaultExpenseReport.xlsx"
         )
 
