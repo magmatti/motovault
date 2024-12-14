@@ -4,13 +4,18 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.uken.motovault.api.retrofit.RetrofitInstance
+import com.uken.motovault.api.vindecoderAPI.APIConnector
 import com.uken.motovault.models.VehicleModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Response
 
 class HomeViewModel: ViewModel() {
+
+    val apiConnector = APIConnector()
 
     private val _vehicles = MutableStateFlow<List<VehicleModel>>(emptyList())
     val vehicles: StateFlow<List<VehicleModel>> = _vehicles
@@ -22,11 +27,27 @@ class HomeViewModel: ViewModel() {
     fun fetchVehicles(mail: String) {
         viewModelScope.launch {
             try {
+                // Step 1: Fetch the initial list of vehicles
                 val fetchedVehicles = RetrofitInstance.vehiclesApi.getVehicles(mail)
+
+                // Step 2: Enrich the fetched vehicles with make and model
+                fetchedVehicles.forEach { vehicle ->
+                    try {
+                        val vehicleInfo = withContext(Dispatchers.IO) {
+                            apiConnector.getInfo(vehicle.vin)
+                        }
+                        vehicle.make = vehicleInfo!!.make
+                        vehicle.model = vehicleInfo.model
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Error fetching VehicleInfo for VIN: ${vehicle.vin}", e)
+                    }
+                }
+
+                // Step 3: Update the state
                 _vehicles.value = fetchedVehicles
                 Log.d(TAG, "fetchVehicles: ${_vehicles.value}")
             } catch (e: Exception) {
-                e.printStackTrace()
+                Log.e(TAG, "Error fetching vehicles", e)
             }
         }
     }

@@ -27,7 +27,9 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun VehicleItem(
     onDetailsClick: () -> Unit,
-    onRemindersClick: () -> Unit
+    onRemindersClick: () -> Unit,
+    vehicleMake: String,
+    vehicleModel: String
 ) {
     Card(
         modifier = Modifier
@@ -54,12 +56,12 @@ fun VehicleItem(
             ) {
                 Column {
                     Text(
-                        text = "Renault",
+                        text = vehicleMake,
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Laguna",
+                        text = vehicleModel,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Medium
                     )

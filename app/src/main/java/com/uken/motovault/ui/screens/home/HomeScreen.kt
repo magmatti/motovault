@@ -49,7 +49,7 @@ fun HomeScreen(
     onSignOut: () -> Unit,
     emailSignInViewModel: EmailSignInViewModel = viewModel(),
     viewModel: NavigationBarViewModel = viewModel(),
-    homeViewModel: HomeViewModel = viewModel()
+    homeViewModel: HomeViewModel = viewModel(),
 ) {
     var showDialog by remember { mutableStateOf(false) }
     val vehicleList by homeViewModel.vehicles.collectAsState()
@@ -105,7 +105,9 @@ fun HomeScreen(
                             },
                             onRemindersClick = {
                                 navController.navigate(Routes.CAR_REMINDERS_SCREEN)
-                            }
+                            },
+                            vehicleMake = vehicle.make.toString(),
+                            vehicleModel = vehicle.model.toString()
                         )
                     }
                 }
