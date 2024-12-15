@@ -1,14 +1,15 @@
 package com.uken.motovault.document_generation
 
+import android.content.ContentValues
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
 import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import com.uken.motovault.models.ServiceModel
 import java.io.File
-import java.io.FileOutputStream
 
 class ServiceReportGenerator {
 
@@ -67,21 +68,36 @@ class ServiceReportGenerator {
     }
 
     private fun savePdfToFile(context: Context, pdfDocument: PdfDocument): File? {
-        val filePath = File(
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
-            "MotoVaultServicesReport.pdf"
-        )
+        val fileName = "MotoVaultServicesReport.pdf"
 
-        return try {
-            pdfDocument.writeTo(FileOutputStream(filePath))
-            Log.d(TAG, "savePdfToFile: pdf saved to file $filePath")
-            filePath
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Log.d(TAG, "savePdfToFile: error when saving file: $e")
+        val resolver = context.contentResolver
+        val contentValues = ContentValues().apply {
+            put(MediaStore.Downloads.DISPLAY_NAME, fileName)
+            put(MediaStore.Downloads.MIME_TYPE, "application/pdf")
+            put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
+        }
+
+        val uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
+        return if (uri != null) {
+            try {
+                resolver.openOutputStream(uri).use { outputStream ->
+                    if (outputStream != null) {
+                        pdfDocument.writeTo(outputStream)
+                        Log.d(TAG, "savePdfToFile: PDF saved to Downloads folder")
+                    } else {
+                        Log.e(TAG, "savePdfToFile: OutputStream is null")
+                    }
+                }
+                File(uri.path)
+            } catch (e: Exception) {
+                Log.e(TAG, "savePdfToFile: Error saving PDF $e")
+                null
+            } finally {
+                pdfDocument.close()
+            }
+        } else {
+            Log.e(TAG, "savePdfToFile: Failed to create MediaStore entry")
             null
-        } finally {
-            pdfDocument.close()
         }
     }
 }

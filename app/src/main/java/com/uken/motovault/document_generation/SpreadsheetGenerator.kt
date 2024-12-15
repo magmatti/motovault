@@ -1,13 +1,14 @@
 package com.uken.motovault.document_generation
 
+import android.content.ContentValues
 import android.content.Context
 import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import com.uken.motovault.models.ExpenseModel
 import org.apache.poi.ss.usermodel.Workbook
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.io.File
-import java.io.FileOutputStream
 
 class SpreadsheetGenerator() {
 
@@ -48,22 +49,36 @@ class SpreadsheetGenerator() {
     }
 
     private fun saveToFile(context: Context): File? {
-        val file = File(
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
-            "MotoVaultExpenseReport.xlsx"
-        )
+        val fileName = "MotoVaultExpenseSheet.xls"
 
-        return try {
-            FileOutputStream(file).use { output ->
-                workbook.write(output)
+        val resolver = context.contentResolver
+        val contentValues = ContentValues().apply {
+            put(MediaStore.Downloads.DISPLAY_NAME, fileName)
+            put(MediaStore.Downloads.MIME_TYPE, "application/vnd.ms-excel")
+            put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
+        }
+
+        val uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
+        return if (uri != null) {
+            try {
+                resolver.openOutputStream(uri).use { outputStream ->
+                    if (outputStream != null) {
+                        workbook.write(outputStream)
+                        Log.d(TAG, "saveToFile: Sheet file saved to Documents folder")
+                    } else {
+                        Log.e(TAG, "saveToFile: OutputStream is null")
+                    }
+                }
+                File(uri.path)
+            } catch (e: Exception) {
+                Log.e(TAG, "saveToFile: Error saving Sheet file $e")
+                null
+            } finally {
+                workbook.close()
             }
-            file
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Log.d(TAG, "saveToFile: $e")
+        } else {
+            Log.e(TAG, "saveToFile: Failed to create MediaStore entry")
             null
-        } finally {
-            workbook.close()
         }
     }
 }
