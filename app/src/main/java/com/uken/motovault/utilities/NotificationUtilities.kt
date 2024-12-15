@@ -18,7 +18,7 @@ object NotificationUtilities {
         val notification = NotificationCompat.Builder(context, "carServiceChannel")
             .setContentTitle(title)
             .setContentText(content)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.mipmap.ic_launcher_round)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
 
