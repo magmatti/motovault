@@ -26,7 +26,7 @@ fun NotificationSettingRow(
         Text(text = "Enable notifications")
         Switch(
             checked = notificationsEnabled,
-            onCheckedChange = onToggle
+            onCheckedChange = { onToggle(it) }
         )
     }
 }

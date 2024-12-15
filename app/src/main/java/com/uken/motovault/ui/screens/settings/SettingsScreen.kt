@@ -26,6 +26,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.uken.motovault.datastores.NotificationsDataStore
 import com.uken.motovault.datastores.OilChangeIntervalDataStore
 import com.uken.motovault.sign_in.email_sign_in.EmailSignInViewModel
 import com.uken.motovault.sign_in.google_sign_in.UserData
@@ -49,10 +50,12 @@ fun SettingsScreen(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    var notificationsEnabled by remember { mutableStateOf(true) }
     val oilChangeIntervalDataStore = remember { OilChangeIntervalDataStore(context) }
+    val notificationsDataStore = remember { NotificationsDataStore(context) }
     val oilChangeInterval by oilChangeIntervalDataStore.oilChangeInterval
         .collectAsState(initial = "Every year")
+    val notificationsEnabled by notificationsDataStore.areNotificationsEnabled
+        .collectAsState(initial = true)
     var showBottomSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
     val bottomSheetOptions = listOf("Every year", "6 months", "3 months")
@@ -84,7 +87,11 @@ fun SettingsScreen(
 
                 NotificationSettingRow(
                     notificationsEnabled = notificationsEnabled,
-                    onToggle = { notificationsEnabled = it }
+                    onToggle = {
+                        scope.launch {
+                            notificationsDataStore.saveOilChangeInterval(!notificationsEnabled)
+                        }
+                    }
                 )
 
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
