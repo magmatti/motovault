@@ -80,11 +80,13 @@ fun HomeScreen(
             topBar = { TopAppBar(scope, drawerState, "Home") },
             bottomBar = { AppNavigationBar(navController, viewModel) },
             floatingActionButton = {
-                ExtendedFloatingActionButton(
-                    onClick = { showDialog = true },
-                    icon = { Icon(Icons.Filled.Add, "Add Icon") },
-                    text = { Text(text = "Add Vehicle") },
-                )
+                if (vehicleList.isEmpty()) {
+                    ExtendedFloatingActionButton(
+                        onClick = { showDialog = true },
+                        icon = { Icon(Icons.Filled.Add, "Add Icon") },
+                        text = { Text(text = "Add Vehicle") },
+                    )
+                }
             },
             floatingActionButtonPosition = FabPosition.End
         ) { innerPadding ->

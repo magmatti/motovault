@@ -12,11 +12,19 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.io.File
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class ServicesViewModel: ViewModel() {
 
     private val _services = MutableStateFlow<List<ServiceModel>>(emptyList())
     val services: StateFlow<List<ServiceModel>> = _services
+
+    private val _lastOilChangeDate = MutableStateFlow<String?>(null)
+    val lastOilChangeDate: StateFlow<String?> = _lastOilChangeDate
+
+    private val _lastInspectionDate = MutableStateFlow<String?>(null)
+    val lastInspectionDate: StateFlow<String?> = _lastInspectionDate
 
     companion object {
         const val TAG = "ServicesViewModel"
@@ -27,10 +35,19 @@ class ServicesViewModel: ViewModel() {
             try {
                 val fetchedServices = RetrofitInstance.servicesApi.getServices(mail)
                 _services.value = fetchedServices
+                _lastOilChangeDate.value = getLatestServiceDate("Oil service")
+                _lastInspectionDate.value = getLatestServiceDate("Inspection")
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
+    }
+
+    private fun getLatestServiceDate(serviceType: String): String? {
+        return _services.value
+            .filter { it.serviceType == serviceType }
+            .maxByOrNull { LocalDate.parse(it.date, DateTimeFormatter.ISO_DATE) }
+            ?.date
     }
 
     fun addService(service: ServiceModel) {

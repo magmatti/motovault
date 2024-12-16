@@ -1,6 +1,5 @@
 package com.uken.motovault.ui.screens.car_reminders
 
-import android.app.Activity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -13,30 +12,49 @@ import androidx.compose.material.icons.filled.Alarm
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.uken.motovault.sign_in.email_sign_in.EmailSignInViewModel
 import com.uken.motovault.ui.composables.misc.PageInfoBox
 import com.uken.motovault.ui.composables.misc.TopAppBarWithBackButton
 import com.uken.motovault.ui.composables.navigationbar.AppNavigationBar
 import com.uken.motovault.utilities.IntentUtilities
 import com.uken.motovault.utilities.NotificationUtilities
-import com.uken.motovault.utilities.PermissionUtilities
+import com.uken.motovault.utilities.RemindersScreenDateUtilities
+import com.uken.motovault.viewmodels.ServicesViewModel
 
 @Composable
 fun CarRemindersScreen(
-    navController: NavController
+    navController: NavController,
+    servicesViewModel: ServicesViewModel = viewModel(),
+    emailSignInViewModel: EmailSignInViewModel = viewModel(),
 ) {
     val context = LocalContext.current
-    val activity = LocalContext.current as? Activity
+    val userEmail by emailSignInViewModel.userEmail.observeAsState()
 
-    // Prompting user for notifications permission when not granted
-    LaunchedEffect(Unit) {
-        if (!PermissionUtilities.isNotificationPermissionEnabled(context)) {
-            PermissionUtilities.requestNotificationPermission(activity?: return@LaunchedEffect)
+    val lastOilChangeDate by servicesViewModel.lastOilChangeDate.collectAsState()
+    val lastInspectionDate by servicesViewModel.lastInspectionDate.collectAsState()
+    val nextOilChangeDate = lastOilChangeDate?.let {
+        RemindersScreenDateUtilities.calculateNextActionDate(it)
+    } ?: "Unknown"
+    val nextInspectionDate = lastInspectionDate?.let {
+        RemindersScreenDateUtilities.calculateNextActionDate(it)
+    } ?: "Unknown"
+
+    LaunchedEffect(userEmail) {
+        userEmail?.let { email ->
+            servicesViewModel.getServices(email)
         }
     }
+
+    val oilServiceStatus = RemindersScreenDateUtilities.getServiceStatus(lastOilChangeDate)
+    val inspectionServiceStatus = RemindersScreenDateUtilities.getServiceStatus(lastInspectionDate)
 
     Scaffold(
         topBar = { TopAppBarWithBackButton("Reminders", navController) },
@@ -61,8 +79,8 @@ fun CarRemindersScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 ReminderCard(
-                    statusText = "Oil service status: Valid",
-                    lastActionText = "Next action: 2024-12-06",
+                    statusText = "Oil service: $oilServiceStatus",
+                    lastActionText = "Last service: ${lastOilChangeDate ?: "Unknown"}",
                     onNotifyClick = {
                         NotificationUtilities.showNotification(
                             context,
@@ -71,17 +89,19 @@ fun CarRemindersScreen(
                         )
                     },
                     onAddToCalendarClick = {
-                        IntentUtilities.addEventToCalendar(
-                            context,
-                            "Oil service",
-                            "It't time to change engine oil",
-                            "2024-12-21"
-                        )
+                        if (nextOilChangeDate != "Unknown") {
+                            IntentUtilities.addEventToCalendar(
+                                context,
+                                "Oil service",
+                                "It's time to change engine oil",
+                                nextOilChangeDate
+                            )
+                        }
                     }
                 )
                 ReminderCard(
-                    statusText = "Inspection status: Valid",
-                    lastActionText = "Next action: 2024-12-06",
+                    statusText = "Inspection: $inspectionServiceStatus",
+                    lastActionText = "Last inspection: ${lastInspectionDate ?: "Unknown"}",
                     onNotifyClick = {
                         NotificationUtilities.showNotification(
                             context,
@@ -90,12 +110,14 @@ fun CarRemindersScreen(
                         )
                     },
                     onAddToCalendarClick = {
-                        IntentUtilities.addEventToCalendar(
-                            context,
-                            "Car Inspection",
-                            "Another yearly car inspection",
-                            "2024-12-21"
-                        )
+                        if (nextInspectionDate != "Unknown") {
+                            IntentUtilities.addEventToCalendar(
+                                context,
+                                "Car Inspection",
+                                "Another yearly car inspection",
+                                nextInspectionDate
+                            )
+                        }
                     }
                 )
             }

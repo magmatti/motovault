@@ -44,6 +44,9 @@ android {
 
 dependencies {
 
+    // Compose material 3
+    implementation("androidx.compose.material3:material3:1.1.0")
+
     // DataStore
     implementation("androidx.datastore:datastore-preferences:1.1.1")
 
