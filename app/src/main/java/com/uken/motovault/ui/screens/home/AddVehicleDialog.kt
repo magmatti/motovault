@@ -75,12 +75,12 @@ fun AddVehicleDialog(
         },
         dismissButton = {
             Row {
-                TextButton(
-                    onClick = { /* To do */ }
-                ) {
-                    Icon(Icons.Filled.DocumentScanner, "DocumentScanner")
-                    Text("Scan")
-                }
+//                TextButton(
+//                    onClick = { /* To do */ }
+//                ) {
+//                    Icon(Icons.Filled.DocumentScanner, "DocumentScanner")
+//                    Text("Scan")
+//                }
                 TextButton(onClick = onDismiss) {
                     Text("Cancel")
                 }
