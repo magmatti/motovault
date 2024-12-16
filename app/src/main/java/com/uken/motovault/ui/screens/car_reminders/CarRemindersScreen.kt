@@ -15,11 +15,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.uken.motovault.datastores.OilChangeIntervalDataStore
 import com.uken.motovault.sign_in.email_sign_in.EmailSignInViewModel
 import com.uken.motovault.ui.composables.misc.PageInfoBox
 import com.uken.motovault.ui.composables.misc.TopAppBarWithBackButton
@@ -34,6 +37,8 @@ fun CarRemindersScreen(
     navController: NavController,
     servicesViewModel: ServicesViewModel = viewModel(),
     emailSignInViewModel: EmailSignInViewModel = viewModel(),
+    oilChangeIntervalDataStore: OilChangeIntervalDataStore =
+        OilChangeIntervalDataStore.getInstance(LocalContext.current)
 ) {
     val context = LocalContext.current
     val userEmail by emailSignInViewModel.userEmail.observeAsState()
@@ -47,13 +52,20 @@ fun CarRemindersScreen(
         RemindersScreenDateUtilities.calculateNextActionDate(it)
     } ?: "Unknown"
 
+    val oilChangeInterval = remember { mutableStateOf("Every year") }
+
+    LaunchedEffect(Unit) {
+        oilChangeInterval.value = oilChangeIntervalDataStore.getLastOilChangeInterval()
+    }
+
     LaunchedEffect(userEmail) {
         userEmail?.let { email ->
             servicesViewModel.getServices(email)
         }
     }
 
-    val oilServiceStatus = RemindersScreenDateUtilities.getServiceStatus(lastOilChangeDate)
+    val oilServiceStatus = RemindersScreenDateUtilities
+        .getOilChangeStatus(lastOilChangeDate, oilChangeInterval.value)
     val inspectionServiceStatus = RemindersScreenDateUtilities.getServiceStatus(lastInspectionDate)
 
     Scaffold(

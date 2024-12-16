@@ -50,10 +50,12 @@ fun SettingsScreen(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val oilChangeIntervalDataStore = remember { OilChangeIntervalDataStore(context) }
-    val notificationsDataStore = remember { NotificationsDataStore(context) }
-    val oilChangeInterval by oilChangeIntervalDataStore.oilChangeInterval
-        .collectAsState(initial = "Every year")
+
+    val oilChangeIntervalDataStore = OilChangeIntervalDataStore.getInstance(context)
+    val notificationsDataStore = NotificationsDataStore.getInstance(context)
+
+    val oilChangeInterval by oilChangeIntervalDataStore
+        .oilChangeInterval.collectAsState(initial = "Every year")
     val notificationsEnabled by notificationsDataStore.areNotificationsEnabled
         .collectAsState(initial = true)
     var showBottomSheet by remember { mutableStateOf(false) }

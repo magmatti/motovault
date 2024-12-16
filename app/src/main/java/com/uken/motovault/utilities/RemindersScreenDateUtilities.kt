@@ -23,4 +23,21 @@ object RemindersScreenDateUtilities {
         }
         return "Unknown"
     }
+
+    fun getOilChangeStatus(lastOilChangeDate: String?, oilChangeInterval: String): String {
+        lastOilChangeDate?.let {
+            val lastOilChangeDateParsed = LocalDate.parse(it, DateTimeFormatter.ISO_DATE)
+            val currentDate = LocalDate.now()
+
+            val nextOilChangeDate = when (oilChangeInterval) {
+                "Every year" -> lastOilChangeDateParsed.plusYears(1)
+                "6 months" -> lastOilChangeDateParsed.plusMonths(6)
+                "3 months" -> lastOilChangeDateParsed.plusMonths(3)
+                else -> return "Unknown"
+            }
+
+            return if (currentDate.isBefore(nextOilChangeDate)) "Valid" else "Expired"
+        }
+        return "Unknown"
+    }
 }

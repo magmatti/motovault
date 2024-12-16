@@ -127,7 +127,7 @@ fun AddExpenseDialog(
                                 DatePickerDialog(
                                     context,
                                     { _, selectedYear, selectedMonth, selectedDay ->
-                                        date = "$selectedYear-${selectedMonth + 1}-${selectedDay}"
+                                        date = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay)
                                     },
                                     year, month, day
                                 ).show()
