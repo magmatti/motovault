@@ -1,5 +1,6 @@
 package com.uken.motovault.ui.screens.expenses
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
@@ -35,10 +36,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.uken.motovault.TextRecognitionActivity
+import com.uken.motovault.ReceiptScanningActivity
 import com.uken.motovault.models.ExpenseModel
 import java.util.Calendar
 
+@SuppressLint("DefaultLocale")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddExpenseDialog(
@@ -127,7 +129,12 @@ fun AddExpenseDialog(
                                 DatePickerDialog(
                                     context,
                                     { _, selectedYear, selectedMonth, selectedDay ->
-                                        date = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay)
+                                        date = String.format(
+                                            "%04d-%02d-%02d",
+                                            selectedYear,
+                                            selectedMonth + 1,
+                                            selectedDay
+                                        )
                                     },
                                     year, month, day
                                 ).show()
@@ -186,7 +193,7 @@ fun AddExpenseDialog(
         dismissButton = {
             TextButton(
                 onClick = {
-                    val intent = Intent(context, TextRecognitionActivity::class.java)
+                    val intent = Intent(context, ReceiptScanningActivity::class.java)
                     launcher.launch(intent)
                 }
             ) {

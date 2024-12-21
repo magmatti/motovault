@@ -1,5 +1,9 @@
 package com.uken.motovault.ui.screens.home
 
+import android.app.Activity
+import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,6 +21,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import com.uken.motovault.VinScanningActivity
 import com.uken.motovault.models.VehicleModel
 
 @Composable
@@ -27,6 +33,15 @@ fun AddVehicleDialog(
 ) {
     var vinNumber by remember { mutableStateOf("") }
     var isVinValid by remember { mutableStateOf(true) }
+    val context = LocalContext.current
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val vin = result.data?.getStringExtra("vin") ?: ""
+            vinNumber = vin
+        }
+    }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -75,12 +90,15 @@ fun AddVehicleDialog(
         },
         dismissButton = {
             Row {
-//                TextButton(
-//                    onClick = { /* To do */ }
-//                ) {
-//                    Icon(Icons.Filled.DocumentScanner, "DocumentScanner")
-//                    Text("Scan")
-//                }
+                TextButton(
+                    onClick = {
+                        val intent = Intent(context, VinScanningActivity::class.java)
+                        launcher.launch(intent)
+                    }
+                ) {
+                    Icon(Icons.Filled.DocumentScanner, "DocumentScanner")
+                    Text("Scan")
+                }
                 TextButton(onClick = onDismiss) {
                     Text("Cancel")
                 }

@@ -1,21 +1,17 @@
-package com.uken.motovault.text_recognition_api;
+package com.uken.motovault.text_recognition.receipt_scan;
 
-public class TextRequest {
+public class TextRequestReceipt {
     private String text;
 
-    // Konstruktor
-    public TextRequest(String text) {
+    public TextRequestReceipt(String text) {
         this.text = text;
     }
 
-    // Getter
     public String getText() {
         return text;
     }
 
-    // Setter
     public void setText(String text) {
         this.text = text;
     }
 }
-

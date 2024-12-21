@@ -32,10 +32,18 @@
 
         <!-- TextRecognitionActivity -->
         <activity
-            android:name=".TextRecognitionActivity"
+            android:name=".ReceiptScanningActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat" />
+
+        <!-- VinScanningActivity -->
+        <activity
+            android:name=".VinScanningActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AppCompat" />
+
     </application>
 
 </manifest>
