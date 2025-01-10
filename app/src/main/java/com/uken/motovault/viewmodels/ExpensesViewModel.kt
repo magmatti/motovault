@@ -44,7 +44,7 @@ class ExpensesViewModel: ViewModel() {
         }
     }
 
-    fun updateExpense(expense: ExpenseModel, mail: String) {
+    fun updateExpense(expense: ExpenseModel) {
         viewModelScope.launch {
             try {
                 val updatedExpense = RetrofitInstance.expensesApi.updateExpense(

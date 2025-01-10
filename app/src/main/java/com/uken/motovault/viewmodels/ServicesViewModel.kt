@@ -61,7 +61,7 @@ class ServicesViewModel: ViewModel() {
         }
     }
 
-    fun updateService(service: ServiceModel, mail: String) {
+    fun updateService(service: ServiceModel) {
         viewModelScope.launch {
             try {
                 val updatedService = RetrofitInstance.servicesApi.updateService(
