@@ -61,6 +61,22 @@ class ServicesViewModel: ViewModel() {
         }
     }
 
+    fun updateService(service: ServiceModel, mail: String) {
+        viewModelScope.launch {
+            try {
+                val updatedService = RetrofitInstance.servicesApi.updateService(
+                    service.id!!,
+                    service
+                )
+                _services.value = _services.value.map {
+                    if (it.id == updatedService.id) updatedService else it
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
     fun deleteService(id: Int, mail: String) {
         viewModelScope.launch {
             try {

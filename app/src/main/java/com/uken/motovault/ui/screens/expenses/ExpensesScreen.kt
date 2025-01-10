@@ -130,6 +130,12 @@ fun ExpensesScreen(
                                 expense = expense,
                                 onDelete = { id ->
                                     expensesViewModel.deleteExpense(id, userEmail!!)
+                                },
+                                onEdit = {
+                                    updatedExpense -> expensesViewModel.updateExpense(
+                                        updatedExpense,
+                                        userEmail!!
+                                    )
                                 }
                             )
                         }

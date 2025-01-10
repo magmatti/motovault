@@ -44,6 +44,22 @@ class ExpensesViewModel: ViewModel() {
         }
     }
 
+    fun updateExpense(expense: ExpenseModel, mail: String) {
+        viewModelScope.launch {
+            try {
+                val updatedExpense = RetrofitInstance.expensesApi.updateExpense(
+                    expense.id!!,
+                    expense
+                )
+                _expenses.value = _expenses.value.map {
+                    if (it.id == updatedExpense.id) updatedExpense else it
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
     fun deleteExpense(id: Int, mail: String) {
         viewModelScope.launch {
             try {

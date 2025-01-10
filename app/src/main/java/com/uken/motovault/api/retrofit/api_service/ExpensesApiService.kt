@@ -7,6 +7,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface ExpensesApiService {
@@ -28,6 +29,9 @@ interface ExpensesApiService {
 
     @POST("expenses")
     suspend fun addExpense(@Body expense: ExpenseModel): ExpenseModel
+
+    @PUT("expenses/{id}")
+    suspend fun updateExpense(@Path("id") id: Int, @Body expense: ExpenseModel): ExpenseModel
 
     @DELETE("expenses/{id}")
     suspend fun deleteExpense(@Path("id") id: Int): Response<Unit>

@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -114,11 +113,7 @@ fun AddExpenseDialog(
                     onValueChange = { date = it },
                     label = { Text("Date (YYYY-MM-DD)") },
                     readOnly = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-
-                        },
+                    modifier = Modifier.fillMaxWidth(),
                     trailingIcon = {
                         IconButton(
                             onClick = {
@@ -139,9 +134,11 @@ fun AddExpenseDialog(
                                     year, month, day
                                 ).show()
                             }
-                        ) { Icon(
-                            imageVector = Icons.Filled.CalendarToday,
-                            contentDescription = "Date Picker")
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.CalendarToday,
+                                contentDescription = "Date Picker"
+                            )
                         }
                     }
                 )

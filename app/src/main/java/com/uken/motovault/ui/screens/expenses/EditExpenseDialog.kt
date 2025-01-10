@@ -1,10 +1,10 @@
-package com.uken.motovault.ui.screens.service
+package com.uken.motovault.ui.screens.expenses
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
@@ -26,53 +26,30 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.uken.motovault.models.ServiceModel
+import com.uken.motovault.models.ExpenseModel
 import java.util.Calendar
 
 @SuppressLint("DefaultLocale")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddServiceDialog(
-    userEmail: String,
+fun EditExpenseDialog(
+    context: Context,
+    expense: ExpenseModel,
     onDismiss: () -> Unit,
-    onAddService: (ServiceModel) -> Unit,
+    onUpdateExpense: (ExpenseModel) -> Unit
 ) {
-    var vehicleId by remember { mutableStateOf("") }
-    var serviceType by remember { mutableStateOf("") }
-    var date by remember { mutableStateOf("") }
-    var total by remember { mutableStateOf("") }
-    val context = LocalContext.current
-
-    val serviceTypes = listOf(
-        "Inspection",
-        "Oil service",
-        "Gearbox repair",
-        "Engine repair",
-        "Brake replacement",
-        "Clutch replacement",
-        "Tire change",
-        "Suspension repair",
-        "Exhaust system repair",
-        "Air conditioning service",
-        "Windshield replacement",
-        "Spark plug replacement",
-        "Radiator repair",
-        "Fuel system service",
-        "Electrical system repair",
-        "Steering system repair",
-        "Turbocharger repair",
-        "Interior detailing",
-        "Paint touch-up",
-    )
+    var expensesType by remember { mutableStateOf(expense.expensesType) }
+    var date by remember { mutableStateOf(expense.date) }
+    var total by remember { mutableStateOf(expense.total.toString()) }
+    val expenseTypes = listOf("Petrol", "Speed Ticket", "Insurance", "Detailing")
     var expanded by remember { mutableStateOf(false) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Add new service") },
+        title = { Text("Edit Expense") },
         text = {
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -83,8 +60,8 @@ fun AddServiceDialog(
                     onExpandedChange = { expanded = !expanded }
                 ) {
                     OutlinedTextField(
-                        value = serviceType,
-                        onValueChange = { serviceType = it },
+                        value = expensesType,
+                        onValueChange = { expensesType = it },
                         label = { Text("Expense Type") },
                         trailingIcon = {
                             Icon(
@@ -101,23 +78,25 @@ fun AddServiceDialog(
                         expanded = expanded,
                         onDismissRequest = { expanded = false }
                     ) {
-                        serviceTypes.forEach { type ->
+                        expenseTypes.forEach { type ->
                             DropdownMenuItem(
                                 text = { Text(type) },
                                 onClick = {
-                                    serviceType = type
+                                    expensesType = type
                                     expanded = false
                                 }
                             )
                         }
                     }
                 }
+
                 OutlinedTextField(
                     value = date,
                     onValueChange = { date = it },
                     label = { Text("Date (YYYY-MM-DD)") },
                     readOnly = true,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth(),
                     trailingIcon = {
                         IconButton(
                             onClick = {
@@ -138,12 +117,15 @@ fun AddServiceDialog(
                                     year, month, day
                                 ).show()
                             }
-                        ) { Icon(
-                            imageVector = Icons.Filled.CalendarToday,
-                            contentDescription = "Date Picker")
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.CalendarToday,
+                                contentDescription = "Date Picker"
+                            )
                         }
                     }
                 )
+
                 var isTotalError by remember { mutableStateOf(false) }
                 OutlinedTextField(
                     value = total,
@@ -163,7 +145,6 @@ fun AddServiceDialog(
                     isError = isTotalError,
                     modifier = Modifier.fillMaxWidth(),
                 )
-
                 if (isTotalError) {
                     Text(
                         text = "Invalid input: only numbers are allowed.",
@@ -176,24 +157,17 @@ fun AddServiceDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    val service = ServiceModel(
-                        vehicleId = vehicleId.toIntOrNull() ?: 0,
-                        serviceType = serviceType,
+                    val updatedExpense = expense.copy(
+                        expensesType = expensesType,
                         date = date,
-                        total = total.toDoubleOrNull() ?: 0.0,
-                        mail = userEmail
+                        total = total.toDoubleOrNull() ?: 0.0
                     )
-                    onAddService(service)
+                    onUpdateExpense(updatedExpense)
                 }
             ) {
-                Text("Add")
+                Text("Update")
             }
         },
-        dismissButton = {
-            Spacer(modifier = Modifier.padding(16.dp))
-            TextButton(onClick = onDismiss) {
-                Text("Cancel")
-            }
-        }
+        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } }
     )
 }

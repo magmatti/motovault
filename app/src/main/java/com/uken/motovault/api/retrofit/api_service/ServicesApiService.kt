@@ -6,6 +6,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface ServicesApiService {
@@ -14,6 +15,9 @@ interface ServicesApiService {
 
     @POST("services")
     suspend fun addService(@Body service: ServiceModel): ServiceModel
+
+    @PUT("services/{id}")
+    suspend fun updateService(@Path("id") id: Int, @Body service: ServiceModel): ServiceModel
 
     @DELETE("services/{id}")
     suspend fun deleteService(@Path("id") id: Int): Response<Unit>
