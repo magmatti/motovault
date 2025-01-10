@@ -133,8 +133,7 @@ fun ExpensesScreen(
                                 },
                                 onEdit = {
                                     updatedExpense -> expensesViewModel.updateExpense(
-                                        updatedExpense,
-                                        userEmail!!
+                                        updatedExpense
                                     )
                                 }
                             )

@@ -132,8 +132,7 @@ fun ServiceScreen(
                                 },
                                 onEdit = {
                                     updatedService -> servicesViewModel.updateService(
-                                        updatedService,
-                                        userEmail!!
+                                    updatedService
                                     )
                                 }
                             )
