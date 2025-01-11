@@ -22,11 +22,15 @@ class ExpensesViewModel: ViewModel() {
         const val TAG = "ExpensesViewModel"
     }
 
+    private fun updateSortedExpenses(newExpenses: List<ExpenseModel>) {
+        _expenses.value = newExpenses.sortedByDescending { it.date }
+    }
+
     fun getExpenses(mail: String) {
         viewModelScope.launch {
             try {
                 val fetchedExpenses = RetrofitInstance.expensesApi.getExpenses(mail)
-                _expenses.value = fetchedExpenses
+                updateSortedExpenses(fetchedExpenses)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -37,7 +41,7 @@ class ExpensesViewModel: ViewModel() {
         viewModelScope.launch {
             try {
                 val addedExpense = RetrofitInstance.expensesApi.addExpense(expense)
-                _expenses.value = _expenses.value + addedExpense
+                updateSortedExpenses(_expenses.value + addedExpense)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -51,9 +55,10 @@ class ExpensesViewModel: ViewModel() {
                     expense.id!!,
                     expense
                 )
-                _expenses.value = _expenses.value.map {
+                val updatedList = _expenses.value.map {
                     if (it.id == updatedExpense.id) updatedExpense else it
                 }
+                updateSortedExpenses(updatedList)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

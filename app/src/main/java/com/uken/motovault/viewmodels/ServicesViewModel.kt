@@ -30,17 +30,8 @@ class ServicesViewModel: ViewModel() {
         const val TAG = "ServicesViewModel"
     }
 
-    fun getServices(mail: String) {
-        viewModelScope.launch {
-            try {
-                val fetchedServices = RetrofitInstance.servicesApi.getServices(mail)
-                _services.value = fetchedServices
-                _lastOilChangeDate.value = getLatestServiceDate("Oil service")
-                _lastInspectionDate.value = getLatestServiceDate("Inspection")
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+    private fun updateSortedServices(newService: List<ServiceModel>) {
+        _services.value = newService.sortedByDescending { it.date }
     }
 
     private fun getLatestServiceDate(serviceType: String): String? {
@@ -50,11 +41,24 @@ class ServicesViewModel: ViewModel() {
             ?.date
     }
 
+    fun getServices(mail: String) {
+        viewModelScope.launch {
+            try {
+                val fetchedServices = RetrofitInstance.servicesApi.getServices(mail)
+                updateSortedServices(fetchedServices)
+                _lastOilChangeDate.value = getLatestServiceDate("Oil service")
+                _lastInspectionDate.value = getLatestServiceDate("Inspection")
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
     fun addService(service: ServiceModel) {
         viewModelScope.launch {
             try {
                 val addedService = RetrofitInstance.servicesApi.addService(service)
-                _services.value = _services.value + addedService
+                updateSortedServices(_services.value + addedService)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -68,9 +72,10 @@ class ServicesViewModel: ViewModel() {
                     service.id!!,
                     service
                 )
-                _services.value = _services.value.map {
+                val updatedServiceList = _services.value.map {
                     if (it.id == updatedService.id) updatedService else it
                 }
+                updateSortedServices(updatedServiceList)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
