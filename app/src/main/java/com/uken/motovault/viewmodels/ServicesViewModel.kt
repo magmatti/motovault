@@ -82,12 +82,16 @@ class ServicesViewModel: ViewModel() {
         }
     }
 
-    fun deleteService(id: Int, mail: String) {
+    fun deleteService(id: Int) {
         viewModelScope.launch {
             try {
                 val response: Response<Unit> = RetrofitInstance.servicesApi.deleteService(id)
                 if (response.isSuccessful) {
-                    getServices(mail)
+                    val updatedList = _services.value.filter { it.id != id }
+                    _services.value = updatedList
+                    if (updatedList.isEmpty()) {
+                        _services.value = emptyList()
+                    }
                 } else {
                     Log.d(TAG, "deleteService: $response")
                 }

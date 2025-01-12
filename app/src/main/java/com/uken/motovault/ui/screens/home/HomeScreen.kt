@@ -116,6 +116,9 @@ fun HomeScreen(
                             onRemindersClick = {
                                 navController.navigate(Routes.CAR_REMINDERS_SCREEN)
                             },
+                            onCarDeleteClick = {
+                                homeViewModel.deleteVehicle(vehicle.id!!)
+                            },
                             vehicleMake = vehicle.make.toString(),
                             vehicleModel = vehicle.model.toString()
                         )

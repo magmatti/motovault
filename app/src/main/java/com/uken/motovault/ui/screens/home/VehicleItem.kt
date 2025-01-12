@@ -21,6 +21,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
@@ -28,6 +29,7 @@ import androidx.compose.ui.unit.dp
 fun VehicleItem(
     onDetailsClick: () -> Unit,
     onRemindersClick: () -> Unit,
+    onCarDeleteClick: () -> Unit,
     vehicleMake: String,
     vehicleModel: String
 ) {
@@ -40,6 +42,19 @@ fun VehicleItem(
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ) {
+                TextButton(
+                    onClick = onCarDeleteClick
+                ) {
+                    Text(
+                        text = "Delete Car",
+                        color = Color.Red
+                    )
+                }
+            }
             Icon(
                 imageVector = Icons.Default.DirectionsCarFilled,
                 contentDescription = "Car Image",

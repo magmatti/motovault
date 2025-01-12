@@ -65,12 +65,16 @@ class ExpensesViewModel: ViewModel() {
         }
     }
 
-    fun deleteExpense(id: Int, mail: String) {
+    fun deleteExpense(id: Int) {
         viewModelScope.launch {
             try {
                 val response: Response<Unit> = RetrofitInstance.expensesApi.deleteExpense(id)
                 if (response.isSuccessful) {
-                    getExpenses(mail)
+                    val updatedList = _expenses.value.filter { it.id != id }
+                    _expenses.value = updatedList
+                    if (updatedList.isEmpty()) {
+                        _expenses.value = emptyList()
+                    }
                 } else {
                     Log.d(TAG, "deleteExpense: $response")
                 }

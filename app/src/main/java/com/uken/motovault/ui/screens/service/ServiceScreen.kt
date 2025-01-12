@@ -128,7 +128,7 @@ fun ServiceScreen(
                             ServiceItemCard(
                                 service = service,
                                 onDelete = { id ->
-                                    servicesViewModel.deleteService(id, userEmail!!)
+                                    servicesViewModel.deleteService(id)
                                 },
                                 onEdit = {
                                     updatedService -> servicesViewModel.updateService(

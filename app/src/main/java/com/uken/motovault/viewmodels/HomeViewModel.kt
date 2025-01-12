@@ -59,12 +59,16 @@ class HomeViewModel: ViewModel() {
         }
     }
 
-    fun deleteVehicle(id: Int, mail: String) {
+    fun deleteVehicle(id: Int) {
         viewModelScope.launch {
             try {
                 val response: Response<Unit> = RetrofitInstance.vehiclesApi.deleteVehicle(id)
                 if (response.isSuccessful) {
-                    fetchVehicles(mail)
+                    val updatedList = _vehicles.value.filter { it.id != id }
+                    _vehicles.value = updatedList
+                    if (updatedList.isEmpty()) {
+                        _vehicles.value = emptyList()
+                    }
                 } else {
                     Log.d(TAG, "deleteVehicles: $response")
                 }
