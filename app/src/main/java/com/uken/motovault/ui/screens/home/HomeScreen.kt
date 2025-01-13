@@ -32,10 +32,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.uken.motovault.datastores.UserEmailDataStore
 import com.uken.motovault.sign_in.email_sign_in.EmailSignInViewModel
 import com.uken.motovault.sign_in.google_sign_in.UserData
 import com.uken.motovault.ui.Routes
@@ -54,15 +56,18 @@ fun HomeScreen(
     viewModel: NavigationBarViewModel = viewModel(),
     homeViewModel: HomeViewModel = viewModel(),
 ) {
+    val context = LocalContext.current
     var showDialog by remember { mutableStateOf(false) }
     val vehicleList by homeViewModel.vehicles.collectAsState()
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val userEmail by emailSignInViewModel.userEmail.observeAsState()
+    val userEmailDataStore = UserEmailDataStore.getInstance(context)
 
     LaunchedEffect(userEmail) {
         userEmail?.let { email ->
             homeViewModel.fetchVehicles(email)
+            userEmailDataStore.saveUserEmail(email)
         }
     }
 

@@ -28,7 +28,6 @@ import com.uken.motovault.ui.composables.misc.PageInfoBox
 import com.uken.motovault.ui.composables.misc.TopAppBarWithBackButton
 import com.uken.motovault.ui.composables.navigationbar.AppNavigationBar
 import com.uken.motovault.utilities.IntentUtilities
-import com.uken.motovault.utilities.NotificationUtilities
 import com.uken.motovault.utilities.RemindersScreenDateUtilities
 import com.uken.motovault.viewmodels.ServicesViewModel
 
@@ -93,13 +92,6 @@ fun CarRemindersScreen(
                 ReminderCard(
                     statusText = "Oil service: $oilServiceStatus",
                     lastActionText = "Last service: ${lastOilChangeDate ?: "Unknown"}",
-                    onNotifyClick = {
-                        NotificationUtilities.showNotification(
-                            context,
-                            "Oil service status",
-                            "It's time to change your engine oil"
-                        )
-                    },
                     onAddToCalendarClick = {
                         if (nextOilChangeDate != "Unknown") {
                             IntentUtilities.addEventToCalendar(
@@ -114,13 +106,6 @@ fun CarRemindersScreen(
                 ReminderCard(
                     statusText = "Inspection: $inspectionServiceStatus",
                     lastActionText = "Last inspection: ${lastInspectionDate ?: "Unknown"}",
-                    onNotifyClick = {
-                        NotificationUtilities.showNotification(
-                            context,
-                            "Inspection status",
-                            "Your inspection expired"
-                        )
-                    },
                     onAddToCalendarClick = {
                         if (nextInspectionDate != "Unknown") {
                             IntentUtilities.addEventToCalendar(

@@ -14,8 +14,8 @@ class App: Application() {
         super.onCreate()
         createNotificationChannel()
 
-        val serviceStatusWorkRequest = PeriodicWorkRequestBuilder<ServiceStatusWorker>(15, TimeUnit.MINUTES)
-            .setInitialDelay(30, TimeUnit.SECONDS)
+        val serviceStatusWorkRequest = PeriodicWorkRequestBuilder<ServiceStatusWorker>(
+            60, TimeUnit.SECONDS)
             .build()
 
         WorkManager.getInstance(applicationContext).enqueue(serviceStatusWorkRequest)
