@@ -1,5 +1,7 @@
 package com.uken.motovault.api.vindecoderAPI
 
+import android.util.Log
+import com.uken.motovault.api.Constants
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -10,10 +12,11 @@ import java.security.NoSuchAlgorithmException
 
 class APIConnector {
     fun getInfo(vin: String): Vehicle? {
-        val apiBaseUrl = "https://api.vindecoder.eu/3.2"
-        val apiKey = "61876c3ce24f"
-        val secretKey = "88b54dcdf0"
-        val action = "decode"
+
+        val apiBaseUrl = Constants.VIN_DECODER_BASE_URL
+        val apiKey = Constants.VIN_DECODER_API_KEY
+        val secretKey = Constants.VIN_DECODER_SECRET_KEY
+        val action = Constants.VIN_DECODER_ACTION
 
         var vehicle: Vehicle? = null
         try {
@@ -38,6 +41,7 @@ class APIConnector {
         } catch (e: NoSuchAlgorithmException) {
             e.printStackTrace()
         }
+        Log.d("APIConnector", "getInfo: $vehicle")
         return vehicle
     }
 

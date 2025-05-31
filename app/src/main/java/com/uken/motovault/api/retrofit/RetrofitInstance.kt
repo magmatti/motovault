@@ -1,5 +1,6 @@
 package com.uken.motovault.api.retrofit
 
+import com.uken.motovault.api.Constants
 import com.uken.motovault.api.retrofit.api_service.ExpensesApiService
 import com.uken.motovault.api.retrofit.api_service.ServicesApiService
 import com.uken.motovault.api.retrofit.api_service.VehiclesApiService
@@ -9,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
 
-    private const val BASE_URL = "http://57.128.197.7:8080/"
+    private const val BASE_URL = Constants.REST_API_BASE_URL
 
     val expensesApi: ExpensesApiService by lazy {
         Retrofit.Builder()
