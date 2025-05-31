@@ -1,17 +1,31 @@
+# Ignore IDE and build system files
 *.iml
-.gradle
-/local.properties
-/.idea
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+.gradle/
 local.properties
-/.kotlin/errors/errors-1730132907707.log
+.DS_Store
+
+.idea/
+.kotlin/
+
+# Ignore IntelliJ IDEA project files and folders
+.idea/
+.idea/caches/
+.idea/libraries/
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+
+# Ignore .kotlin directory (assumes it's at the root of the project)
+.kotlin/
+.kotlin/**
+
+# Ignore Android/Java build artifacts
+/build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Ignore Kotlin error logs
+.kotlin/errors/
+.kotlin/errors/*.log
