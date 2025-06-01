@@ -44,6 +44,20 @@ android {
 
 dependencies {
 
+    // Unit testing
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+
+    // Retrofit & Gson for testing
+    testImplementation("com.squareup.retrofit2:retrofit:2.9.0")
+    testImplementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // MockWebServer to mock HTTP responses
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
+
+    // Mockito for mocking dependencies (if needed)
+    testImplementation("org.mockito:mockito-core:5.8.0")
+
     // WorkManager dependency
     implementation("androidx.work:work-runtime-ktx:2.8.0")
 
