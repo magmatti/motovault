@@ -33,33 +33,35 @@
 //    @Override
 //    public void run(String... args) throws Exception {
 //        APIConnector apiConnector = new APIConnector();
-//        Vehicle vehicle = apiConnector.getInfo("VF1BG0N0526997886", "Samochod");
+////        Vehicle vehicle = apiConnector.getInfo("VF1BG0N0526997886", "nazwa");
+//        Vehicle vehicle = apiConnector.getInfo("JK1ZZ0N0526997886", "nazwa");
+//        System.out.println(vehicle.getMake());
 //
-//        vehicleService.saveVehicle(vehicle);
-//        System.out.println("Vehicle zapisany do bazy.");
-//
-//        System.out.println(vehicleService.getVehicleById(1).get().getModel());
-//
-//        Expenses expenses = new Expenses("PALIWO", LocalDate.now(), 55.60);
-//
-//        expensesService.saveExpenses(expenses);
-//        System.out.println("Expenses zapisane do bazy.");
-//
-//        System.out.println(expensesService.getExpensesById(1).get().getTotal());
-//
-//        Services services = new Services("PRZEGLĄD", LocalDate.now(), 500.5);
-//
-//        servicesService.saveServices(services);
-//        System.out.println("Services zapisane do bazy");
-//
-//        System.out.println(servicesService.getServiceById(1).get().getTotal());
-//
-//        User user = new User("aaa", "bbb", "ccc");
-//
-//        userService.saveUser(user);
-//        System.out.println("User zapisany do bazy");
-//
-//        System.out.println(userService.getUserById(1).get().getEmail());
+////        vehicleService.saveVehicle(vehicle);
+////        System.out.println("Vehicle zapisany do bazy.");
+////
+////        System.out.println(vehicleService.getVehicleByIdAndEmail(1, "mail@mail").get().getModel());
+////
+////        Expenses expenses = new Expenses("PALIWO", LocalDate.now(), 55.60, "mail@mail");
+////
+////        expensesService.saveExpenses(expenses);
+////        System.out.println("Expenses zapisane do bazy.");
+////
+////        System.out.println(expensesService.getExpensesById(1).get().getTotal());
+////
+////        Services services = new Services("PRZEGLĄD", LocalDate.now(), 500.5, "mail@mail");
+////
+////        servicesService.saveServices(services);
+////        System.out.println("Services zapisane do bazy");
+////
+////        System.out.println(servicesService.getServiceById(1).get().getTotal());
+////
+////        User user = new User("aaa", "bbb", "ccc");
+////
+////        userService.saveUser(user);
+////        System.out.println("User zapisany do bazy");
+////
+////        System.out.println(userService.getUserById(1).get().getEmail());
 //
 //
 //

@@ -21,10 +21,15 @@ public class VehicleService {
     public List<Vehicle> getAllVehicles() {
         return vehicleRepository.findAll();
     }
-
-    public Optional<Vehicle> getVehicleById(long id) {
-        return vehicleRepository.findById(id);
+    public List<Vehicle> getVehiclesByEmail(String email) {
+        return vehicleRepository.findAllByEmail(email);
     }
 
-    public void deleteVehicleById(long id) {vehicleRepository.deleteById(id);}
+    public Optional<Vehicle> getVehicleByIdAndEmail(long ID, String email) {
+        return vehicleRepository.findByIDAndEmail(ID, email);
+    }
+
+    public void deleteVehicleById(long id) {
+        vehicleRepository.deleteById(id);
+    }
 }

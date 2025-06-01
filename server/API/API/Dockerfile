@@ -1,3 +1,5 @@
 FROM openjdk:17-jdk-alpine
-COPY out/artifacts/API_jar/API.jar API.jar
-ENTRYPOINT ["java", "-jar", "/API.jar"]
+ARG JAR_FILE=target/*.jar
+COPY ./target/API-0.0.1.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]

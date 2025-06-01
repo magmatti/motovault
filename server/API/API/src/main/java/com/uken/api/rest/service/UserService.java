@@ -25,5 +25,16 @@ public class UserService {
         return usersRepository.findById(id);
     }
 
-    public void deleteUserById(long id) {usersRepository.deleteById(id);}
+    public void deleteUserById(long id) {
+        usersRepository.deleteById(id);
+    }
+
+    public User updateUser(long id, User updatedUser) {
+        return usersRepository.findById(id).map(user -> {
+            user.setName(updatedUser.getName());
+            user.setLastName(updatedUser.getLastName());
+            user.setEmail(updatedUser.getEmail());
+            return usersRepository.save(user);
+        }).orElseThrow(() -> new IllegalArgumentException("User with ID " + id + " not found"));
+    }
 }

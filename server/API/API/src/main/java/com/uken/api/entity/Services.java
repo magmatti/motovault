@@ -1,6 +1,8 @@
 package com.uken.api.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
@@ -12,16 +14,21 @@ public class Services {
     private int ID;
 
     private long vehicleID;
+    @Size(min = 3, max = 50, message = "Service type must be between 3 and 50 characters.")
     private String serviceType;
     private LocalDate date;
     private double total;
+    @Email(message = "Email should be valid.")
+    @Size(max = 100, message = "Email must not exceed 100 characters.")
+    private String email;
 
     public Services(){}
 
-    public Services(String serviceType, LocalDate date, double total) {
+    public Services(String serviceType, LocalDate date, double total, String email) {
         this.serviceType = serviceType;
         this.date = date;
         this.total = total;
+        this.email = email;
     }
 
     public int getID() {
@@ -63,4 +70,8 @@ public class Services {
     public void setTotal(double total) {
         this.total = total;
     }
+
+    public String getMail() {return email;}
+
+    public void setMail(String mail) {this.email = mail;}
 }

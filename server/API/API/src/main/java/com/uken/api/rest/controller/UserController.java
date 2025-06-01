@@ -2,6 +2,7 @@ package com.uken.api.rest.controller;
 
 import com.uken.api.entity.User;
 import com.uken.api.rest.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
         User savedUser = userService.saveUser(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
@@ -40,6 +41,19 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable long id) {
         userService.deleteUserById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(
+            @PathVariable long id,
+            @Valid @RequestBody User updatedUser) {
+        Optional<User> existingUser = userService.getUserById(id);
+        if (existingUser.isPresent()) {
+            User savedUser = userService.updateUser(id, updatedUser);
+            return new ResponseEntity<>(savedUser, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
 

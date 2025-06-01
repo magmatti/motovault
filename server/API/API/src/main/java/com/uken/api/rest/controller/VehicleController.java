@@ -1,6 +1,8 @@
 package com.uken.api.rest.controller;
 
+import com.uken.api.APIConnector;
 import com.uken.api.entity.Vehicle;
+import com.uken.api.entity.VehicleRequest;
 import com.uken.api.rest.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,9 +20,11 @@ public class VehicleController {
     private VehicleService vehicleService;
 
     @PostMapping
-    public ResponseEntity<Vehicle> createVehicle(@RequestBody Vehicle vehicle) {
-        Vehicle savedVehicle = vehicleService.saveVehicle(vehicle);
-        return new ResponseEntity<>(savedVehicle, HttpStatus.CREATED);
+    public ResponseEntity<Vehicle> createVehicle(@RequestBody VehicleRequest vehicleRequest) {
+        APIConnector apiConnector = new APIConnector();
+        Vehicle vehicle = apiConnector.getInfo(vehicleRequest.getVin(), vehicleRequest.getCarName(), vehicleRequest.getMail());
+        vehicleService.saveVehicle(vehicle);
+        return new ResponseEntity<>(vehicle, HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -29,9 +33,18 @@ public class VehicleController {
         return new ResponseEntity<>(vehicleList, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Vehicle> getVehicleById(@PathVariable long id) {
-        Optional<Vehicle> vehicle = vehicleService.getVehicleById(id);
+    @GetMapping("/getAll/{email}")
+    public ResponseEntity<List<Vehicle>> getVehiclesByEmail(@PathVariable String email) {
+        List<Vehicle> vehicles = vehicleService.getVehiclesByEmail(email);
+        if (vehicles.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(vehicles, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/{email}")
+    public ResponseEntity<Vehicle> getVehicleByIdAndEmail(@PathVariable long id, @PathVariable String email) {
+        Optional<Vehicle> vehicle = vehicleService.getVehicleByIdAndEmail(id, email);
         return vehicle.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

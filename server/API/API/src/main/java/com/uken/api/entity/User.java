@@ -1,6 +1,8 @@
 package com.uken.api.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name="users")
@@ -8,9 +10,12 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
-
+    @Size(min = 3, max = 32, message = "Name must contain between 3 and 32 characters.")
     private String name;
+    @Size(min = 3, max = 32, message = "Last name must contain between 3 and 32 characters")
     private String lastName;
+    @Email(message = "Email should be valid.")
+    @Size(max = 100, message = "Email must not exceed 100 characters.")
     private String email;
 
     public User(){}

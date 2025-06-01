@@ -1,18 +1,25 @@
 package com.uken.api.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 @Entity
 @Table(name="vehicles")
-public class wVehicle {
+public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
+
     private int userID;
     private String vin;
+    @Size(min = 3, max = 50, message = "Car name must be between 3 and 50 characters.")
     private String carName;
+    @Email(message = "Email should be valid.")
+    @Size(max = 100, message = "Email must not exceed 100 characters.")
+    private String email;
     @Transient
     private int vehicleId;
     @Transient
@@ -121,8 +128,9 @@ public class wVehicle {
     private String sequentialNumber;
 
     public Vehicle(){}
-    public Vehicle(String response, String carName) {
+    public Vehicle(String response, String carName, String email) {
         this.carName = carName;
+        this.email = email;
         JSONObject jsonResponse = new JSONObject(response);
         JSONArray decodeArray = jsonResponse.getJSONArray("decode");
 
@@ -298,6 +306,8 @@ public class wVehicle {
         }
     }
 
+    public int getID() {return ID;}
+    public void setID(int ID) {this.ID = ID;}
     public String getVin() { return vin; }
     public int getVehicleId() { return vehicleId; }
     public String getMake() { return make; }
@@ -352,4 +362,6 @@ public class wVehicle {
     public boolean isAbs() { return abs; }
     public String getCheckDigit() { return checkDigit; }
     public String getSequentialNumber() { return sequentialNumber; }
+    public String getEmail() {return email;}
+    public void setEmail(String email) {this.email = email;}
 }

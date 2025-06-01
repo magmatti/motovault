@@ -25,5 +25,28 @@ public class ExpensesService {
         return expensesRepository.findById(id);
     }
 
-    public void deleteExpenseById(long id) {expensesRepository.deleteById(id);}
+    public void deleteExpenseById(long id) {
+        expensesRepository.deleteById(id);
+    }
+
+    public List<Expenses> getExpensesByEmail(String email) {return expensesRepository.findAllByEmail(email);}
+
+    public List<Object[]> getYearlyExpensesByTypeAndEmail(int year, String email) {
+        return expensesRepository.findYearlyExpensesByTypeAndEmail(year, email);
+    }
+
+    public List<Object[]> getMonthlyExpensesByTypeAndEmail(int year, int month, String email) {
+        return expensesRepository.findMonthlyExpensesByTypeAndEmail(year, month, email);
+    }
+
+    public Expenses updateExpense(long id, Expenses updatedExpense) {
+        return expensesRepository.findById(id).map(expense -> {
+            expense.setVehicleID(updatedExpense.getVehicleID());
+            expense.setExpensesType(updatedExpense.getExpensesType());
+            expense.setDate(updatedExpense.getDate());
+            expense.setTotal(updatedExpense.getTotal());
+            expense.setMail(updatedExpense.getMail());
+            return expensesRepository.save(expense);
+        }).orElseThrow(() -> new IllegalArgumentException("Expense with ID " + id + " not found"));
+    }
 }

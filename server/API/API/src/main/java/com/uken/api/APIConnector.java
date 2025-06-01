@@ -12,7 +12,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class APIConnector {
 
-    public Vehicle getInfo(String vin, String carName) {
+    public Vehicle getInfo(String vin, String carName, String mail) {
 
         String apiBaseUrl = "https://api.vindecoder.eu/3.2";
         String apiKey = "61876c3ce24f";
@@ -38,7 +38,7 @@ public class APIConnector {
             }
             in.close();
 
-            vehicle = new Vehicle(response.toString(), carName);
+            vehicle = new Vehicle(response.toString(), carName, mail);
         } catch (IOException|NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
