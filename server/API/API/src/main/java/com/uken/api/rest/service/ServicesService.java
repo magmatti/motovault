@@ -1,6 +1,5 @@
 package com.uken.api.rest.service;
 
-import com.uken.api.entity.Expenses;
 import com.uken.api.entity.Services;
 import com.uken.api.rest.repostitory.ServicesRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,6 @@
 package com.uken.api.rest.controller;
 
 import com.uken.api.entity.Services;
-import com.uken.api.entity.Vehicle;
 import com.uken.api.rest.service.ServicesService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +71,6 @@ public class ServicesController {
     public ResponseEntity<?> getMonthlyServicesByTypeAndEmail(@PathVariable int year, @PathVariable int month, @PathVariable String email) {
         List<Object[]> monthlyServices = servicesService.getMonthlyServicesByTypeAndEmail(year, month, email);
 
-        // Transform the response into desired JSON format
         List<Map<String, Object>> response = monthlyServices.stream()
                 .map(service -> Map.of(
                         "category", service[0],

@@ -1,7 +1,6 @@
 package com.uken.api.rest.controller;
 
 import com.uken.api.entity.Expenses;
-import com.uken.api.entity.Vehicle;
 import com.uken.api.rest.service.ExpensesService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
