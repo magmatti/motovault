@@ -21,6 +21,7 @@ import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.TextRecognizer;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
+import com.uken.motovault.api.Constants;
 import com.uken.motovault.text_recognition.receipt_scan.ApiServiceReceipt;
 import com.uken.motovault.text_recognition.receipt_scan.ResponseModelReceipt;
 import com.uken.motovault.text_recognition.receipt_scan.TextRequestReceipt;
@@ -128,8 +129,9 @@ public class ReceiptScanningActivity extends AppCompatActivity {
     }
 
     private void uploadText(TextRequestReceipt textRequest) {
+        String connectionString = Constants.MICROSERVICE_CONNECTION_STRING;
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://57.128.197.7:8000/")
+                .baseUrl(connectionString)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

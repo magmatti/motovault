@@ -21,6 +21,7 @@ import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.TextRecognizer;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
+import com.uken.motovault.api.Constants;
 import com.uken.motovault.text_recognition.vin_scan.ApiServiceVin;
 import com.uken.motovault.text_recognition.vin_scan.ResponseModelVin;
 import com.uken.motovault.text_recognition.vin_scan.TextRequestVin;
@@ -131,8 +132,9 @@ public class VinScanningActivity extends AppCompatActivity {
     }
 
     private void uploadText(TextRequestVin textRequest) {
+        String connectionString = Constants.MICROSERVICE_CONNECTION_STRING;
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://57.128.197.7:8082/")
+                .baseUrl(connectionString)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
