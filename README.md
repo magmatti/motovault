@@ -43,12 +43,6 @@ Each microservice is located within the `microservice/` directory. To run them:
    python3 vin_microservice.py
    ```
 
-   Replace `<microservice-name>` with the actual name of the microservice you wish to run.
-
-3. **Configure Ports and Dependencies**:
-
-   Ensure that each microservice is configured to run on a unique port and that any inter-service dependencies are correctly set up in the `application.properties` or `application.yml` files.
-
 ---
 
 ## 📱 Running the Android Application
@@ -132,7 +126,7 @@ The REST API is located in the `server/` directory. To run it:
 
 - **Database Setup**:
 
-  Ensure that any required databases are set up and accessible. Update the `application.properties` or `application.yml` files with the correct database connection details. Note that you have to use PostgreSQL database.
+  Ensure that required database is set up and accessible. Update the `application.properties` or `application.yml` files with the correct database connection details. Note that you have to use PostgreSQL database.
 
 - **Firebase setup**:
 
