@@ -57,8 +57,8 @@ fun InsightsScreen(
 
     LaunchedEffect(userEmail) {
         userEmail?.let { email ->
-            insightsViewModel.getYearlyExpenses("2024", email)
-            insightsViewModel.getMonthlyExpenses("2024", "1", email)
+            insightsViewModel.getYearlyExpenses("2025", email)
+            insightsViewModel.getMonthlyExpenses("2025", "1", email)
         }
     }
 
@@ -119,7 +119,7 @@ fun InsightsScreen(
             selectedMonth = monthName
             selectedMonthNumber = monthNumber
             userEmail?.let { email ->
-                insightsViewModel.getMonthlyExpenses("2024", monthNumber.toString(), email)
+                insightsViewModel.getMonthlyExpenses("2025", monthNumber.toString(), email)
             }
         }
     }
