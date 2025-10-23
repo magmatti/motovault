@@ -156,6 +156,6 @@ The REST API is located in the `server/` directory. To run it:
 
 ##  👨‍💻 Contributors
 
-* [magmatti](https://github.com/magmatti)
-* [xKaiLee](https://github.com/xKaiLee)
-* [Kubczor](https://github.com/Kubczor)
+* [github.com/magmatti](https://github.com/magmatti)
+* [github.com/xKaiLee](https://github.com/xKaiLee)
+* [github.com/Kubczor](https://github.com/Kubczor)
