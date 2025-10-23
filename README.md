@@ -153,3 +153,9 @@ The REST API is located in the `server/` directory. To run it:
     ```
 
 ---
+
+##  👨‍💻 Contributors
+
+* github.com/magmatti
+* github.com/xKaiLee
+* github.com/Kubczor
